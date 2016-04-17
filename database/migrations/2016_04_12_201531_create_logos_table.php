@@ -21,8 +21,8 @@ class CreateLogosTable extends Migration
             $table->decimal('price');
             $table->enum('status', ['disponible', 'vendido']);
 
-            $table->integer('category_id')->unsigned();
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->integer('category_id')->unsigned()->nullable();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
 
             $table->timestamps();
         });

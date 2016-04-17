@@ -16,10 +16,10 @@ class CreateKeywordLogosTable extends Migration
             $table->increments('id');
 
             $table->integer('logo_id')->unsigned();
-            $table->foreign('logo_id')->references('id')->on('logos');
+            $table->foreign('logo_id')->references('id')->on('logos')->onDelete('cascade');
 
             $table->integer('keyword_id')->unsigned();
-            $table->foreign('keyword_id')->references('id')->on('keywords');
+            $table->foreign('keyword_id')->references('id')->on('keywords')->onDelete('cascade');
 
             $table->timestamps();
         });

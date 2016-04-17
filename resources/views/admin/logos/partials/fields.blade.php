@@ -25,10 +25,10 @@
 
 <div class="form-group">
     {!! Form::label('status', 'Estatus') !!}
-    {!! Form::select('status', ['' => 'Selecciona el estatus', '1' => 'Disponible', '2' => 'Apartado', '3' => 'Vendido'], null, ['class' => 'form-control']) !!}
+    {!! Form::select('status', ['' => 'Selecciona el estatus', 'disponible' => 'Disponible', 'vendido' => 'Vendido'], null, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">
     {!! Form::label('category_id', 'Categorias') !!}
-    {!! Form::select('category_id', ['' => 'Selecciona la categoría', '1' => 'Abstracta', '2' => 'Flux', '3' => 'Minimalista', '4' => 'Natural'], null, ['class' => 'form-control']) !!}
+    {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 </div>

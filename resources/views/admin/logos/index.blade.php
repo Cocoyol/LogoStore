@@ -35,6 +35,8 @@
             $('.btn-delete').click(function(e){
                 e.preventDefault();
 
+                alert("CLickeado!!");
+
                 var row = $(this).parents('tr');
                 var id = row.data('id');
                 var form = $('#form-delete');

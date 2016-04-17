@@ -2,6 +2,7 @@
 
 namespace LogoStore\Http\Controllers\Admin;
 
+use LogoStore\Category;
 use LogoStore\Http\Controllers\Controller;
 
 use LogoStore\Http\Requests\CreateLogoRequest;
@@ -21,7 +22,7 @@ class LogoController extends Controller
      */
     public function index()
     {
-        $logos = Logo::orderBy('date', 'DESC')->paginate();
+        $logos = Logo::with('category')->with('keywords')->orderBy('date', 'DESC')->paginate();
 
         return view('admin.logos.index', compact('logos'));
     }
@@ -33,7 +34,8 @@ class LogoController extends Controller
      */
     public function create()
     {
-        return view('admin.logos.create');
+        $categories = Category::pluck('name', 'id');
+        return view('admin.logos.create', compact('categories'));
     }
 
     /**
@@ -67,8 +69,10 @@ class LogoController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::pluck('name', 'id');
+
         $logo = Logo::findOrFail($id);
-        return view('admin.logos.edit', compact('logo'));
+        return view('admin.logos.edit', compact('logo', 'categories'));
     }
 
     /**

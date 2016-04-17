@@ -17,10 +17,13 @@
             <td>{{ $logo->name }}</td>
             <td>{{ $logo->code }}</td>
             <td>{{ $logo->date }}</td>
-            <td>Undefined</td>
+            <td>{{ $logo->status }}</td>
             <td>$ {{ $logo->price }}</td>
-            <td>Categoría</td>
-            <td>Palabras Clave</td>
+            <td>{{ $logo->category->name }}</td>
+            <td>
+                @foreach($logo->keywords as $keyword)
+                    <span class="label label-info">{{ $keyword->name }}</span>
+                @endforeach</td>
             <td>
                 <a href="{{ route('admin.logos.edit', $logo) }}">Editar</a>
                 <a href="#!" class="btn-delete">Eliminar</a>

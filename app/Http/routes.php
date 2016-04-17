@@ -23,12 +23,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function(){
     Route::get('/', function () {
         return view('welcome');
     });
-    //dd("HOLA");
 
-    /*Route::get('logos', function(){
-        dd("Hola");
-        return view('admin.logos.index');
-    });*/
     Route::resource('logos', 'LogoController');
     Route::resource('customers', 'CustomerController');
     Route::resource('categories', 'CategoryController');

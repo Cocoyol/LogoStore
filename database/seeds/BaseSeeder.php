@@ -14,8 +14,14 @@ abstract class BaseSeeder extends Seeder
 
     public function run()
     {
-        static::$listed = static::$pool;
+        static::$listed = array();
+        static::$listed = array_map([$this, 'deepCopy'], static::$pool);
         $this->createMultiple($this->total);
+    }
+
+    protected function deepCopy($val)
+    {
+        return clone $val;
     }
 
     protected function createMultiple($total, array $customValues = array())

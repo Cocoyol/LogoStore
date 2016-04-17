@@ -16,11 +16,11 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->string('details')->nullable();
 
-            $table->integer('logo_id')->unsigned();
-            $table->foreign('logo_id')->references('id')->on('logos');
+            $table->integer('logo_id')->unsigned()->nullable();
+            $table->foreign('logo_id')->references('id')->on('logos')->onDelete('set null');
 
             $table->integer('customer_id')->unsigned();
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
 
             $table->timestamps();
         });
