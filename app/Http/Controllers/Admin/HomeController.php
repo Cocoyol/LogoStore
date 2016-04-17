@@ -1,7 +1,8 @@
 <?php
 
-namespace LogoStore\Http\Controllers;
+namespace LogoStore\Http\Controllers\Admin;
 
+use LogoStore\Http\Controllers\Controller;
 use LogoStore\Http\Requests;
 use Illuminate\Http\Request;
 

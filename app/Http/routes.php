@@ -11,21 +11,33 @@
 |
 */
 
-/*Route::get('/', function () {
-    return view('welcome');
-});*/
-
 Route::get('/', 'Frontend\HomeController@index');
 
+Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function(){
 
-Route::group(['prefix' => 'admin', 'namespace' => 'admin'], function(){
-
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [
+        'uses' => 'HomeController@index',
+        'as'   => 'admin'
+    ]);
 
     Route::resource('logos', 'LogoController');
     Route::resource('customers', 'CustomerController');
     Route::resource('categories', 'CategoryController');
 
 });
+
+
+// Authentication routes...
+Route::get('login', [
+    'uses'  => 'Auth\AuthController@getLogin',
+    'as'    => 'login'
+]);
+Route::post('login', 'Auth\AuthController@postLogin');
+Route::get('logout', [
+    'uses'  => 'Auth\AuthController@getLogout',
+    'as'    => 'logout'
+]);
+
+Route::auth();
+
+

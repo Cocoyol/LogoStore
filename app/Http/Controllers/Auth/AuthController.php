@@ -28,7 +28,9 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'admin';
+
+    protected $redirectAfterLogout = 'admin';
 
     /**
      * Create a new authentication controller instance.
@@ -69,4 +71,5 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
 }
