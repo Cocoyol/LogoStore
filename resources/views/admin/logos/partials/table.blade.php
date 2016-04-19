@@ -19,7 +19,7 @@
             <td>{{ $logo->date }}</td>
             <td>{{ $logo->status }}</td>
             <td>$ {{ $logo->price }}</td>
-            <td>{{ $logo->category->name }}</td>
+            <td>{!! ($logo->category != null) ? $logo->category->name : "<em>Sin Categor&iacute;a</em>" !!} </td>
             <td>
                 @foreach($logo->keywords as $keyword)
                     <span class="label label-info">{{ $keyword->name }}</span>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use LogoStore\Http\Requests;
 
+use LogoStore\Keyword;
 use LogoStore\Logo;
 
 class LogoController extends Controller
@@ -35,7 +36,8 @@ class LogoController extends Controller
     public function create()
     {
         $categories = Category::pluck('name', 'id');
-        return view('admin.logos.create', compact('categories'));
+        $keywords = Keyword::pluck('name', 'id');
+        return view('admin.logos.create', compact('categories', 'keywords'));
     }
 
     /**
@@ -46,7 +48,10 @@ class LogoController extends Controller
      */
     public function store(CreateLogoRequest $request)
     {
+        //dd($request->all());
         $logo = Logo::create($request->all());
+        $this->multiStoreKeywords($logo, $request->keywords_id);
+
         return redirect()->route('admin.logos.index');
     }
 
@@ -70,9 +75,11 @@ class LogoController extends Controller
     public function edit($id)
     {
         $categories = Category::pluck('name', 'id');
+        $keywords = Keyword::pluck('name', 'id');
 
-        $logo = Logo::findOrFail($id);
-        return view('admin.logos.edit', compact('logo', 'categories'));
+        $logo = Logo::with('keywords')->findOrFail($id);
+        $logo->keywords_id = $logo->keywords->pluck('id')->toArray();
+        return view('admin.logos.edit', compact('logo', 'categories', 'keywords'));
     }
 
     /**
@@ -120,6 +127,24 @@ class LogoController extends Controller
 
         return redirect()->route('admin.logos.index');
 
+    }
+
+    public function multiStoreKeywords(Logo $logo, array $keywords_id)
+    {
+        //dd([$logo, $keywords_id]);
+        foreach($keywords_id as $keyword_id) {
+            $keyword = Keyword::findOrFail($keyword_id);
+            $this->storeKeyword($logo, $keyword->id);
+        }
+        return true;
+    }
+
+    public function storeKeyword(Logo $logo, $keyword_id)
+    {
+        if($logo->getKeyword($keyword_id)) return false;
+
+        $logo->keywords()->attach($keyword_id);
+        return true;
     }
 
 }

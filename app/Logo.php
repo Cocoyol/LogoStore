@@ -25,4 +25,9 @@ class Logo extends Model
     {
         return $this->belongsToMany(Keyword::class, 'keyword_logos')->withTimestamps();
     }
+
+    public function getKeyword($keyword_id)
+    {
+        return $this->keywords()->where('keyword_id', $keyword_id)->count();
+    }
 }

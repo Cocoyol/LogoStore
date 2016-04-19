@@ -25,10 +25,15 @@
 
 <div class="form-group">
     {!! Form::label('status', 'Estatus') !!}
-    {!! Form::select('status', ['' => 'Selecciona el estatus', 'disponible' => 'Disponible', 'vendido' => 'Vendido'], null, ['class' => 'form-control']) !!}
+    {!! Form::select('status', ['disponible' => 'Disponible', 'vendido' => 'Vendido'], null, ['class' => 'form-control', 'placeholder' => 'Selecciona el estatus...']) !!}
 </div>
 
 <div class="form-group">
     {!! Form::label('category_id', 'Categorias') !!}
-    {!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
+    {!! Form::select('category_id', $categories, null, ['class' => 'form-control', 'placeholder' => 'Selecciona una categor&iacute;a...']) !!}
+</div>
+
+<div class="form-group">
+    {!! Form::label('keywords_id', 'Palabras clave') !!}
+    {!! Form::select('keywords_id', $keywords, null, ['class' => 'form-control listKeywords', 'multiple' => 'multiple', 'name' => 'keywords_id[]']) !!}
 </div>

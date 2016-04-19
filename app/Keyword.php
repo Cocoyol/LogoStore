@@ -11,6 +11,6 @@ class Keyword extends Model
     ];
 
     public function logos() {
-        return $this->belongsTo(Logo::class);
+        return $this->belongsToMany(Logo::class, 'keyword_logos')->withTimestamps();
     }
 }
