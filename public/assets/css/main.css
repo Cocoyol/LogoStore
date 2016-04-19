@@ -1,0 +1,52 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #eeeeee;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #1a3056;
+}
+
+.text-muted {
+    margin: 20px 0;
+}
+
+/*
+------------------------------------------------------ */
+
+.navbar-default {
+    background-color: #47618f;
+    border-color: #e7e7e7;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.navbar-brand>img {
+    height: 100%;
+    padding: 0px;
+    width: auto;
+}
+
+
+
+.contact_section{
+    background-color: #47618f;
+}
+
+.title_contact{
+    text-align: center;
+    color: #ffffff;
+}
