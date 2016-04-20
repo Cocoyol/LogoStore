@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{{ asset('/admin/js/select2.full.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('assets/admin/js/select2.full.min.js') }}"></script>
 <script type="text/javascript">
     $(document).on('ready', function() {
         $('select.listKeywords').select2({
