@@ -14,18 +14,15 @@ class HomeController extends Controller
 {
     public function index(){
 
-
-        $logos = Logo::with('category')->with('keywords')->orderBy('date', 'DESC')->paginate();
+        $logos = Logo::with('category')->with('keywords')->orderBy('date', 'DESC')->paginate(12);
         return view('front.home', compact('logos'));
-
 
     }
 
-
-    public function detalle($id)
+    public function detail($id)
     {
         $logo = Logo::findOrFail($id);
-        return view('front.detalle', compact('logo'));
+        return view('front.detail', compact('logo'));
     }
 
 }
