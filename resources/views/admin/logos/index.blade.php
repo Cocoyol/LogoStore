@@ -29,6 +29,15 @@
 @section('scripts')
     <script type="application/javascript">
 
+        function Noty(msg, tp, to)
+        {
+            var n = noty({
+                text: msg,
+                type: tp,
+                timeout: to
+            });
+        }
+
         $(document).ready(function(){
 
             $('.btn-delete').click(function(e){
@@ -49,19 +58,9 @@
                 row.fadeOut();
 
                 $.post(url, data, function(result){
-
-                    var n = noty({
-                        text: result.message,
-                        type: 'success',
-                        timeout: 3000
-                    });
-
+                    Noty(result.message, 'success', 3000)
                 }).fail(function(){
-                    var n = noty({
-                        text: 'El Logo no fue eliminado',
-                        type: 'error',
-                        timeout: 3000
-                    });
+                    Noty('El Logo no fue eliminado', 'success', 3000)
                     row.show();
                 });
 
@@ -71,11 +70,7 @@
                 -*- NOTY -*-
              */
             if($('#notyText').length) {
-                var n = noty({
-                    text: $('#notyText').html(),
-                    type: 'success',
-                    timeout: 3000
-                });
+                Noty($('#notyText').html(), 'success', 3000);
             }
         });
 
