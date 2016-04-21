@@ -110,6 +110,15 @@ class LogoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'name' => 'required|max:255',
+            'code' => 'required|max:255',
+            'date' => 'required|date',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'status' => 'required|in:disponible,vendido',
+            'category_id' => 'integer|exists:categories,id'
+        ]);
         $logo = Logo::findOrFail($id);
         $this->multiUpdateKeyword($logo, $request->keywords_id);
         $logo->fill($request->all());

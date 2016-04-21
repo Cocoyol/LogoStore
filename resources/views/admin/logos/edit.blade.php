@@ -9,13 +9,11 @@
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    @if (Session::has('message'))
-                        <div class="alert alert-success">
-                            {{ Session::get('message') }}
-                        </div>
-                    @endif
                     <div class="panel-heading">Editar Logo</div>
                     <div class="panel-body">
+
+                        @include('admin.logos.partials.messages')
+
                         {!! Form::model($logo, ['route' => ['admin.logos.update', $logo], 'method' => 'PUT']) !!}
                         @include('admin.logos.partials.fields')
                         <button type="submit" class="btn btn-default">Actulizar Logo</button>
