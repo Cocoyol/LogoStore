@@ -8,11 +8,24 @@ use LogoStore\Http\Requests;
 
 use LogoStore\Http\Controllers\Controller;
 
+use LogoStore\Logo;
+
 class HomeController extends Controller
 {
     public function index(){
 
-        return view('front.home');
+
+        $logos = Logo::with('category')->with('keywords')->orderBy('date', 'DESC')->paginate();
+        return view('front.home', compact('logos'));
+
 
     }
+
+
+    public function detalle($id)
+    {
+        $logo = Logo::findOrFail($id);
+        return view('front.detalle', compact('logo'));
+    }
+
 }

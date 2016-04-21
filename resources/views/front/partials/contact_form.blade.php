@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <button type="submit" class="btn btn-success center-block">Enviar</button>
+                        <button type="submit" class="btn btn-success center-block">ENVIAR</button>
                     </div>
                     <p>&nbsp;</p>
                 {!! Form::close() !!}

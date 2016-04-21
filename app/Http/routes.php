@@ -12,6 +12,8 @@
 */
 
 Route::get('/', 'Frontend\HomeController@index');
+Route::get('/detail', 'Frontend\HomeController@detalle');
+
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function(){
 
