@@ -1,37 +1,91 @@
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
+
+@import "fonts.css";
+
 body {
-    /* Margin bottom by footer height */
-    margin-bottom: 60px;
     background-color: #eeeeee;
+    font-family: 'latosemibold';
+
 }
+
 .footer {
-    position: absolute;
     bottom: 0;
     width: 100%;
     /* Set the fixed height of the footer here */
-    height: 60px;
-    background-color: #1a3056;
+    height: auto;
+    background-color: #1e3152;
 }
 
 .text-muted {
     margin: 20px 0;
+    color: #57719f !important;
+    text-align: center;
 }
+
+.text-muted-img{
+    margin: 20px 0;
+}
+
 
 /*
 ------------------------------------------------------ */
 
+
+.SearchIcon
+{
+    color:#fff;
+
+}
+.SearchButton
+{
+    background-color:#b3cc85;
+    border-radius:4px;
+}
+.SearchButton:hover{
+    background-color:#b3cc85;
+}
+
+.SearchBar{
+
+}
+
+
+/*
+-------------------------------------------------------*/
+
+.fa-btn {
+    margin-right: 6px;
+
+}
+
+.custom-menu{
+   text-align: center;
+}
+
+.custom-menu a{
+    font-family: 'latosemibold';
+    color: #f0e66b !important;
+}
+
+.custom-menu a:hover{
+    text-decoration: none;
+}
+
+.custom-position-search{
+    margin-top: 17px;
+}
+
+.custom-navbar-toggle{
+    margin-top: 25px !important;
+}
+
 .navbar-default {
-    background-color: #47618f;
+    background-color: #425a84;
     border-color: #e7e7e7;
 }
 
 .navbar-brand {
     padding: 0px;
+    height: 70px;
 }
 
 .navbar-brand>img {
@@ -40,13 +94,75 @@ body {
     width: auto;
 }
 
-
+.navbar-nav > li > a {
+    line-height: 35px !important;
+}
 
 .contact_section{
     background-color: #47618f;
 }
 
+.btn{
+    font-family: 'latobold' !important;
+}
+
 .title_contact{
+    font-family: 'latoblack';
     text-align: center;
     color: #ffffff;
+}
+
+.img-wrapp-logo{
+    background-color: #ffffff;
+    margin-top: 20px;
+    border: 1px solid #e3e3e3;
+}
+
+.arrow-price{
+    font-family: 'latobold';
+    font-size: 15px;
+    background: url('../images/arrow_price.png') center top;
+    width: 108px;
+    max-width: 100%;
+    height: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 35px;
+    display: block;
+    color: #ce6f23;
+}
+
+
+.buy-now{
+    font-family: 'latoblack';
+    background: url('../images/buy_now.png') center top;
+    width: 108px;
+    max-width: 100%;
+    height: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 35px;
+    display: block;
+}
+
+.buy-now a{
+    color: #ffffff;
+}
+
+.buy-now a:hover{
+    text-decoration: none;
+}
+
+.buy-now-disable{
+    background: url('../images/buy_now_disable.png') center top;
+    width: 108px;
+    max-width: 100%;
+    height: 35px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 35px;
+    display: block;
 }
