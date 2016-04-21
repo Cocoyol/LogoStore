@@ -12,9 +12,15 @@
 */
 
 Route::get('/', 'Frontend\HomeController@index');
+
 Route::get('detail/{id}', [
     'uses' => 'Frontend\HomeController@detail',
     'as'   => 'detail'
+]);
+
+Route::get('customer/register', [
+    'uses' => 'Frontend\HomeController@register_customer',
+    'as'   => 'register'
 ]);
 
 

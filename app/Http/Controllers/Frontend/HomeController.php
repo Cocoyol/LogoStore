@@ -25,4 +25,11 @@ class HomeController extends Controller
         return view('front.detail', compact('logo'));
     }
 
+
+    public function register_customer(){
+
+        return view('front.register_customer');
+
+    }
+
 }
