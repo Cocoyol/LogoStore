@@ -12,7 +12,10 @@
 */
 
 Route::get('/', 'Frontend\HomeController@index');
-Route::get('/detail', 'Frontend\HomeController@detalle');
+Route::get('detail/{id}', [
+    'uses' => 'Frontend\HomeController@detail',
+    'as'   => 'detail'
+]);
 
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function(){

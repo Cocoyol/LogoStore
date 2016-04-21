@@ -9,6 +9,7 @@
     <div class="container">
         <div class="row">
             <p>Detalle Logo</p>
+            <p>{{ $logo->name }}</p>
         </div>
     </div>
 @endsection

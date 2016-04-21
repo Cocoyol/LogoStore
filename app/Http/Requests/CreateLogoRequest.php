@@ -24,12 +24,13 @@ class CreateLogoRequest extends Request
     public function rules()
     {
         return [
-            'name'        => 'required',
-            'code'        => 'required',
-            'date'        => 'required',
-            'price'       => 'required',
-            'status'      => 'required',
-            'category_id' => 'required',
+            'name' => 'required|max:255',
+            'code' => 'required|max:255',
+            'date' => 'required|date',
+            'description' => 'required',
+            'price' => 'required|numeric|min:0',
+            'status' => 'required|in:disponible,vendido',
+            'category_id' => 'integer|exists:categories,id'
         ];
     }
 }

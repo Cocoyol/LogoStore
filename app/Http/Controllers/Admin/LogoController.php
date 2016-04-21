@@ -17,6 +17,9 @@ use LogoStore\Logo;
 
 class LogoController extends Controller
 {
+
+    use RedirectWithSessionMessage;
+
     /**
      * Display a listing of the resource.
      *
@@ -49,28 +52,14 @@ class LogoController extends Controller
      */
     public function store(CreateLogoRequest $request)
     {
-        $this->validate($request,[
-            'name' => 'required|max:255',
-            'code' => 'required|max:255',
-            'date' => 'required|date',
-            'description' => 'required',
-            'price' => 'required|numeric|min:0',
-            'status' => 'required|in:disponible,vendido',
-            'category_id' => 'integer|exists:categories,id'
-        ]);
         $logo = Logo::create($request->all());
         $this->multiStoreKeywords($logo, $request->keywords_id);
 
-        $message ='El logo ' .$logo->name. ' fue agregado exitosamente a la base de datos.';
-        if($request->ajax()) {
-            return response()->json([
-                'id' => $logo->id,
-                'message' => $message
-            ]);
-        }
-        Session::flash('message', $message);
-
-        return redirect()->route('admin.logos.index');
+        return $this->redirectWithFlashMessage(
+            'El logo "' .$logo->name. '" fue agregado exitosamente a la base de datos.',
+            $request->ajax(),
+            redirect()->route('admin.logos.index')
+        );
     }
 
     /**
@@ -108,33 +97,19 @@ class LogoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateLogoRequest $request, $id)
     {
-        $this->validate($request,[
-            'name' => 'required|max:255',
-            'code' => 'required|max:255',
-            'date' => 'required|date',
-            'description' => 'required',
-            'price' => 'required|numeric|min:0',
-            'status' => 'required|in:disponible,vendido',
-            'category_id' => 'integer|exists:categories,id'
-        ]);
         $logo = Logo::findOrFail($id);
         $this->multiUpdateKeyword($logo, $request->keywords_id);
         $logo->fill($request->all());
 
         $logo->save();
 
-        $message ='El logo ' .$logo->name. ' fue modificado exitosamente.';
-        if($request->ajax()) {
-            return response()->json([
-                'id' => $logo->id,
-                'message' => $message
-            ]);
-        }
-        Session::flash('message', $message);
-
-        return redirect()->back();
+        return $this->redirectWithFlashMessage(
+            'El logo "' .$logo->name. '" fue modificado exitosamente.',
+            $request->ajax(),
+            redirect()->route('admin.logos.index')
+        );
     }
 
     /**
@@ -145,22 +120,15 @@ class LogoController extends Controller
      */
     public function destroy($id, Request $request)
     {
-
         $logo = Logo::findOrFail($id);
 
-        $logo->delete();
+        //$logo->delete();
 
-        $message ='El logo ' .$logo->name. ' fue eliminado de nuestros registros.';
-        if($request->ajax()) {
-            return response()->json([
-                'id' => $logo->id,
-                'message' => $message
-            ]);
-        }
-        Session::flash('message', $message);
-
-        return redirect()->route('admin.logos.index');
-
+        return $this->redirectWithFlashMessage(
+            'El logo "' .$logo->name. '" fue eliminado de nuestros registros.',
+            $request->ajax(),
+            redirect()->route('admin.logos.index')
+        );
     }
 
     /*
