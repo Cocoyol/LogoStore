@@ -26,6 +26,16 @@ class Logo extends Model
         return $this->belongsToMany(Keyword::class, 'keyword_logos')->withTimestamps();
     }
 
+    public function requirements()
+    {
+        return $this->hasOne(RequirementsLogo::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ImagesLogo::class);
+    }
+
     public function getKeyword($keyword_id)
     {
         return $this->keywords()->where('keyword_id', $keyword_id)->count();

@@ -23,8 +23,7 @@ Route::get('customer/register', [
     'as'   => 'register'
 ]);
 
-
-Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function(){
+Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 
     Route::get('/', [
         'uses' => 'HomeController@index',
@@ -32,6 +31,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
     ]);
 
     Route::resource('logos', 'LogoController');
+    Route::group(['as' => 'logos.', 'prefix' => 'logos'], function() {
+        Route::get('requirements/{id}', [
+            'uses' => 'LogoController@showRequirements',
+            'as' => 'requirements'
+        ]);
+        Route::get('images/{id}', [
+            'uses' => 'LogoController@showImages',
+            'as' => 'images'
+        ]);
+    });
+
     Route::resource('customers', 'CustomerController');
     Route::resource('categories', 'CategoryController');
 

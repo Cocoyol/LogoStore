@@ -16,6 +16,9 @@ use LogoStore\Http\Requests;
 
 class CategoryController extends Controller
 {
+
+    use RedirectWithSessionMessage;
+
     /**
      * Display a listing of the resource.
      *
@@ -47,7 +50,12 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {
         $category = Category::create($request->all());
-        return redirect()->route('admin.categories.index');
+
+        return $this->redirectWithFlashMessage(
+            'La categor&iacute;a "' .$category->name. '" fue agregada exitosamente a la base de datos.',
+            $request->ajax(),
+            redirect()->route('admin.categories.index')
+        );
     }
 
     /**
@@ -80,7 +88,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateCategoryRequest $request, $id)
     {
         $category = Category::findOrfail($id);
 
@@ -88,7 +96,11 @@ class CategoryController extends Controller
 
         $category->save();
 
-        return redirect()->back();
+        return $this->redirectWithFlashMessage(
+            'La categor&iacute;a "' .$category->name. '" fue modificada exitosamente.',
+            $request->ajax(),
+            redirect()->route('admin.categories.index')
+        );
     }
 
     /**
@@ -103,20 +115,10 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        $message ='La categoría' .$category->name. 'fue eliminada de nuestros registros.';
-
-        if($request->ajax()){
-            return response()->json([
-                'id' => $category->id,
-                'message' => $message
-            ]);
-        }
-
-
-        Session::flash('message', $message);
-
-
-        return redirect()->route('admin.categories.index');
-
+        return $this->redirectWithFlashMessage(
+            'La categor&iacute;a "' .$category->name. '" fue eliminada de nuestros registros.',
+            $request->ajax(),
+            redirect()->route('admin.categories.index')
+        );
     }
 }

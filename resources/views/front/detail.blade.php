@@ -7,6 +7,7 @@
 
 @section('content')
 
+    <?php setlocale(LC_ALL, 'es-mx') ?>
     <div class="container">
         <section class="wrapp-detail-logo">
             <div class="row">
@@ -28,7 +29,7 @@
 
                         <hr>
 
-                            <span class="detail-date">Fecha de carga: {{ date('M d Y', strtotime($logo->created_at)) }}</span>
+                            <span class="detail-date">Fecha de carga: {{ ucfirst(strftime('%b %d %Y', strtotime($logo->created_at))) }}</span>
                         <div class="clearfix">&nbsp;</div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -71,21 +72,21 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="row">
 
+                    @foreach($relatedLogos as $relatedLogo)
                     <div class="col-xs-12 col-sm-3 col-md-3">
                         <div class="img-wrapp-logo">
                             {{ Html::image('assets/images/product.jpg', 'product',['class' => 'img-responsive center-block']) }}
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">
-                                <span class="arrow-price center-block">${{ $logo->price }}</span>
+                                <span class="arrow-price center-block">${{ $relatedLogo->price }}</span>
                             </div>
                             <div class="col-xs-6 col-sm-12 col-md-6">
-                                <span class="buy-now center-block"><a href="{{ route('detail', $logo) }}">COMPRAR</a></span>
+                                <span class="buy-now center-block"><a href="{{ route('detail', $relatedLogo) }}">COMPRAR</a></span>
                             </div>
                         </div>
                     </div>
-
-
+                    @endforeach
 
                 </div>
             </div>

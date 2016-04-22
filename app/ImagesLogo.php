@@ -4,10 +4,10 @@ namespace LogoStore;
 
 use Illuminate\Database\Eloquent\Model;
 
-class RequirementsLogo extends Model
+class ImagesLogo extends Model
 {
     protected $fillable = [
-        'company', 'secondaryText', 'logo_id'
+        'name', 'description', 'path', 'logo_id'
     ];
 
     public function logos()
