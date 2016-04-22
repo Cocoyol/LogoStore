@@ -20,7 +20,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">
-                                <span class="arrow-price">${{ $logo->price }}</span>
+                                <span class="arrow-price center-block">${{ $logo->price }}</span>
                             </div>
                             <div class="col-xs-6 col-sm-12 col-md-6">
                                 <span class="buy-now center-block"><a href="{{ route('detail', $logo) }}">COMPRAR</a></span>
@@ -32,7 +32,7 @@
 
             </div>
         </div>
-        <div class="row">
+        <div class="row" align="center">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 {{ $logos->render() }}
             </div>
