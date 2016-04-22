@@ -23,7 +23,6 @@ Route::get('customer/register', [
     'as'   => 'register'
 ]);
 
-
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 
     Route::get('/', [
