@@ -14,6 +14,7 @@
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
+    {{ Html::style('assets/admin/css/animate.css') }}
 
     @yield('styles')
 
@@ -85,7 +86,15 @@
             noty({
                 text: msg,
                 type: tp,
-                timeout: to
+                timeout: to,
+                theme: 'relax',
+                layout: 'topRight',
+                animation   : {
+                    open  : 'animated bounceInRight',
+                    close : 'animated bounceOutRight',
+                    easing: 'swing',
+                    speed : 500
+                }
             });
         }
     </script>

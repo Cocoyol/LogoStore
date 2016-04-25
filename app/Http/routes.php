@@ -48,6 +48,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 
     Route::resource('customers', 'CustomerController');
     Route::resource('categories', 'CategoryController');
+    Route::resource('keywords', 'KeywordController');
 
 });
 
