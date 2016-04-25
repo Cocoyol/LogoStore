@@ -15,7 +15,7 @@ class LogosTableSeeder extends BaseSeeder
     public function getDummyData(Generator $faker, array $customValues = array())
     {
         return [
-            'name'   => $faker->word,
+            'name'   => ucfirst($faker->word),
             'code'   => str_random(),
             'date'  => $faker->dateTimeBetween('-1 years'),
             'description' => $faker->paragraph(),

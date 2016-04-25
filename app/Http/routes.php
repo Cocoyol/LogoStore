@@ -32,13 +32,17 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 
     Route::resource('logos', 'LogoController');
     Route::group(['as' => 'logos.', 'prefix' => 'logos'], function() {
-        Route::get('requirements/{id}', [
-            'uses' => 'LogoController@showRequirements',
-            'as' => 'requirements'
+        Route::get('{logo_id}/requirements', [
+            'uses' => 'RequirementsController@listByLogo',
+            'as'   => 'requirements'
         ]);
-        Route::get('images/{id}', [
-            'uses' => 'LogoController@showImages',
-            'as' => 'images'
+        Route::get('{logo_id}/images', [
+            'uses' => 'ImagesLogoController@listByLogo',
+            'as'   => 'images'
+        ]);
+        Route::post('{logo_id}/images', [
+            'uses' => 'ImagesLogoController@storeByLogo',
+            'as'   => 'images_post'
         ]);
     });
 
