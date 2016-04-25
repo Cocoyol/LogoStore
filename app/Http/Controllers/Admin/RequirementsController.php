@@ -1,10 +1,12 @@
 <?php
 
-namespace LogoStore\Http\Controllers;
+namespace LogoStore\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
 use LogoStore\Http\Requests;
+use LogoStore\Http\Controllers\Controller;
+use LogoStore\Logo;
 
 class RequirementsController extends Controller
 {
@@ -82,5 +84,14 @@ class RequirementsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /*
+     * -- Operaciones con Logo
+     */
+    public function listByLogo($logo_id)
+    {
+        $logo = Logo::with('requirements')->findOrFail($logo_id);
+        return $logo->requirements;
     }
 }

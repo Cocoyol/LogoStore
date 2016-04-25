@@ -131,23 +131,6 @@ class LogoController extends Controller
         );
     }
 
-    /*
-     * -- OPERACIONES CON REQUIREMENTS
-     */
-    public function showRequirements($id)
-    {
-        $logo = Logo::with('requirements')->findOrFail($id);
-        return $logo->requirements;
-    }
-
-    /*
-     * -- OPERACIONES CON REQUIREMENTS
-     */
-    public function showImages($id)
-    {
-        $logo = Logo::with('images')->findOrFail($id);
-        return $logo->images;
-    }
 
     /*
      * -- OPERACIONES CON KEYWORDS

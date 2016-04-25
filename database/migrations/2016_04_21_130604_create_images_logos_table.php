@@ -16,7 +16,7 @@ class CreateImagesLogosTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->longText('description');
-            $table->string('path',500);
+            $table->string('filename',300);
 
             $table->integer('logo_id')->unsigned();
             $table->foreign('logo_id')->references('id')->on('logos')->onDelete('cascade');
