@@ -37,12 +37,24 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
             'as'   => 'requirements'
         ]);
         Route::get('{logo_id}/images', [
-            'uses' => 'ImagesLogoController@listByLogo',
+            'uses' => 'LogoController@editImages',
             'as'   => 'images'
         ]);
-        Route::post('{logo_id}/images', [
+        Route::post('{logo_id}/images/list', [
+            'uses' => 'ImagesLogoController@listByLogo',
+            'as'   => 'images.list'
+        ]);
+        Route::post('{logo_id}/images/create', [
             'uses' => 'ImagesLogoController@storeByLogo',
-            'as'   => 'images_post'
+            'as'   => 'images.create'
+        ]);
+        Route::post('images/{id}/update', [
+            'uses' => 'ImagesLogoController@update',
+            'as'   => 'images.update'
+        ]);
+        Route::post('images/{id}/destroy', [
+            'uses' => 'ImagesLogoController@destroy',
+            'as'   => 'images.destroy'
         ]);
     });
 
