@@ -132,6 +132,12 @@ class LogoController extends Controller
     }
 
 
+    public function editImages($id)
+    {
+        $logo = Logo::findOrFail($id);
+        return view('admin.images.edit', compact('logo'));
+    }
+
     /*
      * -- OPERACIONES CON KEYWORDS
      */

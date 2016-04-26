@@ -75,7 +75,12 @@ class ImagesLogoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $image = ImagesLogo::findOrFail($id);
+        $image->fill($request->all());
+
+        $image->save();
+
+        return "La imagen ".$image->filename." se ha actualizado.";
     }
 
     /**
@@ -84,59 +89,61 @@ class ImagesLogoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+        $image = ImagesLogo::findOrFail($id);
+
+        $response = json_encode((object)["La imagen no existe ya."]);
+        if(Storage::disk('local')->exists('imagesLogos/'.$image->filename)) {
+
+            Storage::disk('local')->delete('imagesLogos/'.$image->filename);
+            $image->delete();
+
+            $response = json_encode((object)["error" => "La imagen ".$image->filename." NO ha sido eliminada."]);
+            if(!Storage::disk('local')->exists('imagesLogos/'.$image->filename)) {
+                $response = json_encode((object)["La imagen " . $image->filename . " ha sido eliminada."]);
+            }
+        }
+        return $response;
     }
 
     /*
      * -- Operaciones con Logo
      */
-    public function listByLogo($logo_id)
+    public function listByLogo($logo_id, Request $request)
     {
         $logo = Logo::with('images')->findOrFail($logo_id);
-        $images = $logo->images;
-        return view('admin.images.edit', compact('logo', 'images'));
+        $images = prepareResponse($logo->images);
+        return json_encode($images);
     }
 
     public function storeByLogo($logo_id, Request $request)
     {
 
-        //dd($request);
-
         $logo = Logo::with('images')->findOrFail($logo_id);
 
         $file = $request->file('file_data');
+        //dd($file);
+        $response = json_encode((object)["error" => "Ning&uacute;n archivo seleccionado."]);
+        if($file != null) {
 
-        $fileNewName = $this->renameFile($file);
+            $fileNewName = encodeFilename($file->getClientOriginalName());
 
-        $val = Storage::disk('local')->put('imagesLogos/'.$fileNewName, File::get($file));
+            $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, File::get($file));
 
-        $response = json_encode([]);
-        if ($val) {
-            $image = new ImagesLogo();
-            $image->filename = $fileNewName;
-            $image->name = $request->get('name');
-            $image->description = $request->get('description');
-            $image->logo_id = $logo->id;
-            $image->save();
+            $response = json_encode((object)["error" => "No fue posible almacenar la imagen."]);
+            if ($val) {
+                $image = new ImagesLogo();
+                $image->filename = $fileNewName;
+                $image->name = $request->get('name');
+                $image->description = $request->get('description');
+                $image->logo_id = $logo->id;
+                $image->save();
 
-            $response = json_encode($image);
+                $response = json_encode(prepareResponse([$image]));
+            }
         }
         return $response;
-    }
-
-    private function renameFile($file)
-    {
-        $OriginalName = $file->getClientOriginalName();
-        $timetmp = time();
-        $ext = pathinfo($OriginalName, PATHINFO_EXTENSION);
-        $name = $timetmp.hash('sha1',$OriginalName).'.'.((!empty($ext)?($ext):''));
-        while (Storage::disk('local')->exists($name)) {
-            $timetmp++;
-            $name = $timetmp.hash('sha1',$OriginalName).'.'.((!empty($ext)?($ext):''));
-        }
-        return $name;
     }
 
 }
