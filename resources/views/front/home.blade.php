@@ -13,10 +13,11 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
 
+                <?php $default = asset('assets/images/product.jpg'); ?>
                 @foreach($logos as $logo)
                     <div class="col-xs-12 col-sm-3 col-md-3">
                         <div class="img-wrapp-logo">
-                            {{ Html::image('assets/images/product.jpg', 'product',['class' => 'img-responsive center-block']) }}
+                            {{ Html::image(($logo->images->count()) ? asset('storage/imagesLogos').'/'.$logo->images->first()->filename : $default, 'product',['class' => 'img-responsive center-block']) }}
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">
