@@ -15,7 +15,7 @@ class HomeController extends Controller
 {
     public function index(){
 
-        $logos = Logo::with(['category', 'keywords'])->orderBy('date', 'DESC')->paginate(12);
+        $logos = Logo::with(['category', 'keywords', 'images'])->orderBy('date', 'DESC')->paginate(12);
         return view('front.home', compact('logos'));
 
     }

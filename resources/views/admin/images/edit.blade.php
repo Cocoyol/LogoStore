@@ -14,7 +14,7 @@
                     <div class="panel-body">
 
                         <label class="control-label">Seleccionar Im&aacute;genes</label>
-                        <input type="file" id="images" class="file-loading" multiple="true"/>
+                        <input type="file" id="images" name="images" class="file-loading" multiple="true"/>
 
                     </div>
                 </div>
@@ -42,10 +42,6 @@
                     '   {actions}' +
                     '</div>';
 
-            //images.initialPreviewThumbTags["{TOKEN}"] = token;
-
-            console.log(images);
-
             iptImages.fileinput({
                 uploadUrl: "{{ route('logos.images.create', $logo)  }}",
 
@@ -62,6 +58,7 @@
                 initialPreviewConfig: images.initialPreviewConfig,
                 initialPreviewThumbTags: images.initialPreviewThumbTags,
                 deleteExtraData: {_token: token},
+                removeFromPreviewOnError: true,
                 otherActionButtons: '<button type="button" class="kv-file-edit btn btn-xs btn-default hidden" title="Edit" {dataKey}>' +
                     '   <i class="glyphicon glyphicon-save"></i>' +
                     '</button>',
@@ -73,14 +70,20 @@
                 }
             });
 
+            iptImages.on('filebatchuploaderror', function(e, data, msg) {
+                $('.kv-upload-progress').addClass('hide');
+                console.log(e);
+                console.log(data);
+                console.log(msg);
+            });
+
             $(document).on('click', '.kv-file-edit', function(e) {
-                $(this).addClass('hidden');
                 var name = $(this).closest('.file-thumbnail-footer').find('.image-name');
                 var desc = $(this).closest('.file-thumbnail-footer').find('.image-desc');
-                alert(name.val()+" "+desc.val());
                 var url = "{{ route('logos.images.update', ':IMAGE_ID') }}".replace(':IMAGE_ID', $(this).data('key'));
                 $.post(url,{ _token: token, name: name.val(), description: desc.val() },function(response){
-                    console.log(response);
+                    alert("Campos actualizados.");
+                    $(this).addClass('hidden');
                 });
             });
 

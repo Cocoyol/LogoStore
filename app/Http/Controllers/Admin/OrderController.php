@@ -1,13 +1,17 @@
 <?php
 
-namespace LogoStore\Http\Controllers;
+namespace LogoStore\Http\Controllers\Admin;
 
+use LogoStore\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use LogoStore\Http\Requests;
+use LogoStore\Order;
 
 class OrderController extends Controller
 {
+    use RedirectWithSessionMessage;
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +19,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::with(['logo', 'customer'])->orderBy('created_at', 'DESC')->paginate();
+        return view('admin.orders.index', compact('orders'));
     }
 
     /**
@@ -47,7 +52,9 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::with('logo', 'customer')->findOrFail($id);
+
+        return view('admin.orders.details', compact('order'));
     }
 
     /**
@@ -70,7 +77,16 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order = Order::findOrFail($id);
+        $order->fill($request->all());
+
+        $order->save();
+
+        return $this->redirectWithFlashMessage(
+            'Esta orden fue modificado exitosamente.',
+            $request->ajax(),
+            redirect()->route('admin.logos.index')
+        );
     }
 
     /**
@@ -79,8 +95,15 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id,  Request $request)
     {
-        //
+        $order = Order::findOrFail($id);
+        $order->delete();
+
+        return $this->redirectWithFlashMessage(
+            'La orden "' .$order->id. '" fue eliminado de nuestros registros.',
+            $request->ajax(),
+            redirect()->route('admin.logos.index')
+        );
     }
 }

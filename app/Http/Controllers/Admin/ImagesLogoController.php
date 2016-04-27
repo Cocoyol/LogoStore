@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use LogoStore\Http\Requests;
 use LogoStore\Http\Controllers\Controller;
+use LogoStore\Http\Requests\CreateImagesLogoRequest;
 use LogoStore\ImagesLogo;
 use LogoStore\Logo;
 
 class ImagesLogoController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -73,7 +75,7 @@ class ImagesLogoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateImagesLogoRequest $request, $id)
     {
         $image = ImagesLogo::findOrFail($id);
         $image->fill($request->all());
@@ -117,33 +119,38 @@ class ImagesLogoController extends Controller
         return json_encode($images);
     }
 
-    public function storeByLogo($logo_id, Request $request)
+    public function storeByLogo($logo_id, CreateImagesLogoRequest $request)
     {
 
+        //dd($request->all());
         $logo = Logo::with('images')->findOrFail($logo_id);
 
-        $file = $request->file('file_data');
+        $file = $request->file('images');
         //dd($file);
-        $response = json_encode((object)["error" => "Ning&uacute;n archivo seleccionado."]);
+        $response = (object)["error" => "Ning&uacute;n archivo seleccionado."];
         if($file != null) {
 
-            $fileNewName = encodeFilename($file->getClientOriginalName());
+            $response = (object)["error" => "El archivo \"".$file->getClientOriginalName()."\" NO es una imagen. Solo im&aacute;genes son permitidas."];
+            if(validateImage($file)) {
 
-            $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, File::get($file));
+                $fileNewName = encodeFilename($file->getClientOriginalName());
 
-            $response = json_encode((object)["error" => "No fue posible almacenar la imagen."]);
-            if ($val) {
-                $image = new ImagesLogo();
-                $image->filename = $fileNewName;
-                $image->name = $request->get('name');
-                $image->description = $request->get('description');
-                $image->logo_id = $logo->id;
-                $image->save();
+                $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, File::get($file));
 
-                $response = json_encode(prepareResponse([$image]));
+                $response = json_encode((object)["error" => "No fue posible almacenar la imagen ".$file->getClientOriginalName()]);
+                if ($val) {
+                    $image = new ImagesLogo();
+                    $image->filename = $fileNewName;
+                    $image->name = $request->get('name');
+                    $image->description = $request->get('description');
+                    $image->logo_id = $logo->id;
+                    $image->save();
+
+                    $response = prepareResponse([$image]);
+                }
             }
         }
-        return $response;
+        return json_encode($response);
     }
 
 }

@@ -16,8 +16,9 @@ class OrdersTableSeeder extends BaseSeeder
     {
         return [
             'details'   => $faker->paragraph(),
-            'logo_id'  => $this->getRandomUnique('Logo')->id,
-            'customer_id'  => $this->getRandom('Customer')->id,
+            'status'    => $faker->randomElement(['pendiente','cancelada','completa']),
+            'logo_id'   => $this->getRandomUnique('Logo')->id,
+            'customer_id' => $this->getRandom('Customer')->id,
         ];
     }
 }
