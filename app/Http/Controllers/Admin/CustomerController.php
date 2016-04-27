@@ -92,8 +92,8 @@ class CustomerController extends Controller
         $customer = Customer::findOrFail($id);
 
         $this->validate($request,[
-        'name' => 'required|max:255',
-        'email' => 'required|max:255|email|unique:customers,email,'.$customer->id,
+            'name' => 'required|max:255',
+            'email' => 'required|max:255|email|unique:customers,email,'.$customer->id,
             'phone' => 'required|max:255'
         ]);
 

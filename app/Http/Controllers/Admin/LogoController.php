@@ -143,7 +143,6 @@ class LogoController extends Controller
      */
     public function multiStoreKeywords(Logo $logo, array $keywords_id)
     {
-        //dd([$logo, $keywords_id]);
         foreach($keywords_id as $keyword_id) {
             $keyword = Keyword::findOrFail($keyword_id);
             $this->storeKeyword($logo, $keyword->id);
