@@ -36,6 +36,18 @@ Route::get('purchase/summary',[
 ]);
 
 
+Route::get('payment', [
+    'uses' => 'Frontend\PaypsalController@postPayment',
+    'as'   => 'payment'
+]);
+
+// Después de realizar el pago Paypal redirecciona a esta ruta
+Route::get('payment/status', [
+    'uses' => 'Frontend\PaypalController@getPaymentStatus',
+    'as' => 'payment.status'
+]);
+
+
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 
     Route::get('/', [
