@@ -29,15 +29,6 @@
 @section('scripts')
     <script type="application/javascript">
 
-        function Noty(msg, tp, to)
-        {
-            var n = noty({
-                text: msg,
-                type: tp,
-                timeout: to
-            });
-        }
-
         $(document).ready(function(){
 
             $('.btn-delete').click(function(e){
@@ -49,9 +40,7 @@
                 var id = row.data('id');
                 var form = $('#form-delete');
 
-
                 var url =  form.attr('action').replace(':LOGO_ID', id);
-
 
                 var data = form.serialize();
 
@@ -60,15 +49,12 @@
                 $.post(url, data, function(result){
                     Noty(result.message, 'success', 3000)
                 }).fail(function(){
-                    Noty('El Logo no fue eliminado', 'success', 3000)
+                    Noty('El Logo no fue eliminado', 'error', 3000)
                     row.show();
                 });
 
             });
 
-            /*
-                -*- NOTY -*-
-             */
             if($('#notyText').length) {
                 Noty($('#notyText').html(), 'success', 3000);
             }

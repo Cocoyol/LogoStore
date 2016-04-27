@@ -11,9 +11,13 @@ use LogoStore\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use LogoStore\Http\Requests;
+use LogoStore\Http\Requests\CreateCustomerRequest;
 
 class CustomerController extends Controller
 {
+
+    use RedirectWithSessionMessage;
+
     /**
      * Display a listing of the resource.
      *
@@ -42,9 +46,15 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateCustomerRequest $request)
     {
-        //
+        $customer = Customer::create($request->all());
+
+        return $this->redirectWithFlashMessage(
+            'El cliente "' .$customer->name. '" fue agregado exitosamente a la base de datos.',
+            $request->ajax(),
+            redirect()->route('admin.customers.index')
+        );
     }
 
     /**
@@ -67,7 +77,6 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
-
         return view('admin.customers.edit', compact('customer'));
     }
 
@@ -82,11 +91,20 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
 
-        $customer->fill($request->all());
+        $this->validate($request,[
+        'name' => 'required|max:255',
+        'email' => 'required|max:255|email|unique:customers,email,'.$customer->id,
+            'phone' => 'required|max:255'
+        ]);
 
+        $customer->fill($request->all());
         $customer->save();
 
-        return redirect()->back();
+        return $this->redirectWithFlashMessage(
+            'La informaci&oacute;n del cliente "' .$customer->name. '" fue modificada exitosamente.',
+            $request->ajax(),
+            redirect()->route('admin.customers.index')
+        );
     }
 
     /**
@@ -101,20 +119,10 @@ class CustomerController extends Controller
 
         $customer->delete();
 
-        $message ='El Cliente' .$customer->name. 'fue eliminado de nuestros registros.';
-
-        if($request->ajax()){
-
-            return response()->json([
-                'id' => $customer->id,
-                'message' => $message
-            ]);
-        }
-
-        Session::flash('message', $message);
-
-        return redirect()->route('admin.customers.index');
-
-
+        return $this->redirectWithFlashMessage(
+            'El cliente "' .$customer->name. '" fue eliminado de nuestros registros.',
+            $request->ajax(),
+            redirect()->route('admin.customers.index')
+        );
     }
 }

@@ -9,9 +9,7 @@
                     <div class="panel-heading">Clientes</div>
                     <div class="panel-body">
                         @if(Session::has('message'))
-
-                            <p class="alert alert-success"><strong>{{ Session::get('message') }}</strong></p>
-
+                            <div id="notyText" class="hidden"><strong>{{ Session::get('message') }}</strong></div>
                         @endif
                         <p>Hay {{ $customers->total() }} clientes</p>
                         @include('admin.customers.partials.table')
@@ -44,13 +42,16 @@
             row.fadeOut();
 
             $.post(url, data, function(result){
-                alert(result.message);
+                Noty(result.message, 'success', 3000)
             }).fail(function(){
-                alert('El cliente no fue eliminado');
+                Noty('El cliente no fue eliminado', 'error', 3000)
                 row.show();
             });
-
         });
+
+        if($('#notyText').length) {
+            Noty($('#notyText').html(), 'success', 3000);
+        }
 
     });
 

@@ -27,7 +27,7 @@ class LogoController extends Controller
      */
     public function index()
     {
-        $logos = Logo::with('category')->with('keywords')->orderBy('date', 'DESC')->paginate();
+        $logos = Logo::with(['category', 'keywords', 'requirements', 'images'])->orderBy('date', 'DESC')->paginate();
 
         return view('admin.logos.index', compact('logos'));
     }
@@ -122,13 +122,20 @@ class LogoController extends Controller
     {
         $logo = Logo::findOrFail($id);
 
-        //$logo->delete();
+        $logo->delete();
 
         return $this->redirectWithFlashMessage(
             'El logo "' .$logo->name. '" fue eliminado de nuestros registros.',
             $request->ajax(),
             redirect()->route('admin.logos.index')
         );
+    }
+
+
+    public function editImages($id)
+    {
+        $logo = Logo::findOrFail($id);
+        return view('admin.images.edit', compact('logo'));
     }
 
     /*

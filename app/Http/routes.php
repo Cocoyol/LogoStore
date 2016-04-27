@@ -12,10 +12,31 @@
 */
 
 Route::get('/', 'Frontend\HomeController@index');
-Route::get('/detail', 'Frontend\HomeController@detalle');
+
+Route::get('detail/{id}', [
+    'uses' => 'Frontend\HomeController@detail',
+    'as'   => 'detail'
+]);
+
+Route::get('purchase/register', [
+    'uses' => 'Frontend\HomeController@register_customer',
+    'as'   => 'register'
+]);
+
+Route::get('purchase/requirement',[
+    'uses' => 'Frontend\HomeController@requirement_logo',
+    'as'   => 'requirement'
+]);
 
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function(){
+Route::get('purchase/summary',[
+    'uses' => 'Frontend\HomeController@summary',
+    'as'   => 'summary'
+
+]);
+
+
+Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 
     Route::get('/', [
         'uses' => 'HomeController@index',
@@ -23,8 +44,36 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
     ]);
 
     Route::resource('logos', 'LogoController');
+    Route::group(['as' => 'logos.', 'prefix' => 'logos'], function() {
+        Route::get('{logo_id}/requirements', [
+            'uses' => 'RequirementsController@listByLogo',
+            'as'   => 'requirements'
+        ]);
+        Route::get('{logo_id}/images', [
+            'uses' => 'LogoController@editImages',
+            'as'   => 'images'
+        ]);
+        Route::post('{logo_id}/images/list', [
+            'uses' => 'ImagesLogoController@listByLogo',
+            'as'   => 'images.list'
+        ]);
+        Route::post('{logo_id}/images/create', [
+            'uses' => 'ImagesLogoController@storeByLogo',
+            'as'   => 'images.create'
+        ]);
+        Route::post('images/{id}/update', [
+            'uses' => 'ImagesLogoController@update',
+            'as'   => 'images.update'
+        ]);
+        Route::post('images/{id}/destroy', [
+            'uses' => 'ImagesLogoController@destroy',
+            'as'   => 'images.destroy'
+        ]);
+    });
+
     Route::resource('customers', 'CustomerController');
     Route::resource('categories', 'CategoryController');
+    Route::resource('keywords', 'KeywordController');
 
 });
 

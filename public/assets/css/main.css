@@ -1,10 +1,25 @@
 
 @import "fonts.css";
+@import "proces_form.css";
 
 body {
     background-color: #eeeeee;
     font-family: 'latosemibold';
 
+}
+
+hr{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.btn {
+    padding: 6px 30px !important;
+}
+
+.btn-success{
+    background-color: #99CE7F !important;
+    border-color: #87b770 !important;
 }
 
 .footer {
@@ -55,6 +70,28 @@ body {
 .fa-btn {
     margin-right: 6px;
 
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #99CE7F;
+    border-color: #87b770;
+}
+
+.pagination > li > a, .pagination > li > span {
+    font-family: 'latoblack';
+    color: #b6b6b7;
+
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: #b6b6b7;
+    background-color: #e3e3e3;
 }
 
 .custom-menu{
@@ -155,6 +192,50 @@ body {
     text-decoration: none;
 }
 
+
+.btn-pay-cancel{
+    font-family: 'latobold_italic';
+    background: url('../images/cancel_buy.png') center top;
+    width: 229px;
+    max-width: 100%;
+    height: 46px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+}
+
+.btn-pay-cancel a{
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 45px;
+}
+
+.btn-pay-cancel a:hover{
+    text-decoration: none;
+}
+
+
+.btn-pay{
+    background: url('../images/btn_pay.png') center top;
+    width: 229px;
+    max-width: 100%;
+    height: 46px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: block;
+}
+
+.btn-pay a{
+
+}
+
+.btn-pay a:hover{
+    text-decoration: none;
+}
+
+
 .buy-now-disable{
     background: url('../images/buy_now_disable.png') center top;
     width: 108px;
@@ -165,4 +246,69 @@ body {
     text-align: center;
     line-height: 35px;
     display: block;
+}
+
+/*
+-------------------------------------------------------------------------------*/
+
+.wrapp-detail-logo{
+    background-color: #ffffff;
+}
+
+.ajust-space{
+    padding: 15px;
+}
+
+.ajust-space-summary-page{
+    padding: 20px;
+}
+
+.detail-date{
+    font-family: 'latolight_italic';
+    color: #3b3733;
+ }
+
+.detail-categories{
+    font-family: 'latoregular';
+    color: #3b3733;
+}
+
+.detail-title-category{
+    font-family: 'latobold';
+    color: #425a84;
+}
+
+.custom-label{
+    font-family: 'latoregular';
+    font-weight: normal !important;
+    color: #ffffff;
+    background-color: #6686b3;
+}
+
+.detail-description{
+    font-family: 'latoregular';
+    color: #3b3733;
+    text-align: justify;
+}
+
+
+/*
+-----------------------------------------------------------------*/
+
+.custom-form-group{
+    margin-bottom: 0px !important;
+}
+
+.custom-form-group-textarea{
+    margin-bottom: 0px !important;
+    margin-top: 15px;
+}
+
+.text-info-detail{
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.info-message{
+    color: #425a84;
 }

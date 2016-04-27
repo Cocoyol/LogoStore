@@ -9,9 +9,7 @@
                     <div class="panel-heading">Categorías</div>
                     <div class="panel-body">
                         @if(Session::has('message'))
-
-                            <p class="alert alert-success"><strong>{{ Session::get('message') }}</strong></p>
-
+                            <div id="notyText" class="hidden"><strong>{{ Session::get('message') }}</strong></div>
                         @endif
                         <p><a class="btn btn-info" href="{{route('admin.categories.create')}}" role="button">Nueva categoría</a></p>
                         <p>Hay {{ $categories->total() }} categorias</p>
@@ -45,13 +43,16 @@
             row.fadeOut();
 
             $.post(url, data, function(result){
-                alert(result.message);
+                Noty(result.message, 'success', 3000)
             }).fail(function(){
-                alert('La categoria no fue eliminada');
+                Noty('La categor&iacute;a no fue eliminada', 'error', 3000)
                 row.show();
             });
-
         });
+
+        if($('#notyText').length) {
+            Noty($('#notyText').html(), 'success', 3000);
+        }
 
     });
 
