@@ -84,3 +84,16 @@
     font-style: normal;
 
 }
+
+
+@font-face {
+    font-family: 'latobold_italic';
+    src: url('../fonts/lato-bolditalic.eot');
+    src: url('../fonts/lato-bolditalic.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/lato-bolditalic.woff2') format('woff2'),
+    url('../fonts/lato-bolditalic.woff') format('woff'),
+    url('../fonts/lato-bolditalic.svg#latobold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

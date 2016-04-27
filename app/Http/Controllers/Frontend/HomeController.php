@@ -34,10 +34,20 @@ class HomeController extends Controller
         return $relatedLogos;
     }
 
-    public function register_customer(){
-
+    public function register_customer()
+    {
         return view('front.register_customer');
+    }
 
+
+    public function requirement_logo()
+    {
+        return view('front.requirement_logo');
+    }
+
+    public function summary()
+    {
+        return view('front.summary');
     }
 
 }

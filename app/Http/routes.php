@@ -18,10 +18,23 @@ Route::get('detail/{id}', [
     'as'   => 'detail'
 ]);
 
-Route::get('customer/register', [
+Route::get('purchase/register', [
     'uses' => 'Frontend\HomeController@register_customer',
     'as'   => 'register'
 ]);
+
+Route::get('purchase/requirement',[
+    'uses' => 'Frontend\HomeController@requirement_logo',
+    'as'   => 'requirement'
+]);
+
+
+Route::get('purchase/summary',[
+    'uses' => 'Frontend\HomeController@summary',
+    'as'   => 'summary'
+
+]);
+
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin'], function() {
 
