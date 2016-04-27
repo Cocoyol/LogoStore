@@ -14,7 +14,8 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('details')->nullable();
+            $table->longText('details')->nullable();
+            $table->enum('status', ['pendiente','cancelada','completa'])->default('pendiente');
 
             $table->integer('logo_id')->unsigned()->nullable();
             $table->foreign('logo_id')->references('id')->on('logos')->onDelete('set null');
