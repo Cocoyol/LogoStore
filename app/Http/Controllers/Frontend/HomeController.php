@@ -4,12 +4,16 @@ namespace LogoStore\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Session;
 use LogoStore\Category;
 use LogoStore\Http\Requests;
 
 use LogoStore\Http\Controllers\Controller;
 
+use LogoStore\Http\Requests\CreateCustomerRequest;
+use LogoStore\Http\Requests\CreateRequirementsLogoRequest;
 use LogoStore\Logo;
+use LogoStore\PendingOrder;
 
 class HomeController extends Controller
 {
@@ -39,10 +43,27 @@ class HomeController extends Controller
         return view('front.register_customer');
     }
 
+    public function register_customer_preStore(CreateCustomerRequest $request)
+    {
+        $customer = ['name' => $request->get('name'), 'email' => $request->get('email'), 'phone' => $request->get('phone') ];
+        Session::put('customer', $customer);
+        //dd(Session::all());
+        //$pendingOrder = PendingOrder::create($request->all());
+
+        return redirect()->route('requirement');
+    }
 
     public function requirement_logo()
     {
         return view('front.requirement_logo');
+    }
+
+    public function requirement_logo_preStore(CreateRequirementsLogoRequest $request)
+    {
+        $customer = ['company' => $request->get('company'), 'secondaryText' => $request->get('secondaryText')];
+        Session::put('customer', $customer);
+
+        return redirect()->route('summary');
     }
 
     public function summary()

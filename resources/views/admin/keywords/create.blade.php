@@ -8,7 +8,7 @@
                     <div class="panel-heading">Nueva palabra clave</div>
                     <div class="panel-body">
 
-                        @include('admin.keywords.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::open(['route' => 'admin.keywords.store', 'method' => 'POST']) !!}
                         @include('admin.keywords.partials.fields')

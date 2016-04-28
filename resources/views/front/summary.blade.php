@@ -15,14 +15,14 @@
                     <div class="col-xs-4 col-sm-4 col-md-4 bs-wizard-step complete"><!--active-->
                         <div class="text-center bs-wizard-stepnum">1</div>
                         <div class="progress"><div class="progress-bar"></div></div>
-                        <a href="#" class="bs-wizard-dot"></a>
+                        <a href="{{ route('register') }}" class="bs-wizard-dot"></a>
                         <div class="bs-wizard-info text-center">DATOS DEL CLIENTE</div>
                     </div>
 
                     <div class="col-xs-4 col-sm-4 col-md-4 bs-wizard-step complete"><!-- complete -->
                         <div class="text-center bs-wizard-stepnum">2</div>
                         <div class="progress"><div class="progress-bar"></div></div>
-                        <a href="#" class="bs-wizard-dot"></a>
+                        <a href="{{ route('requirement') }}" class="bs-wizard-dot"></a>
                         <div class="bs-wizard-info text-center">DATOS PARA EL LOGO</div>
                     </div>
 

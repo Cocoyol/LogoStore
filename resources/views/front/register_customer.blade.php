@@ -7,6 +7,9 @@
 
 @section('content')
 
+    <pre>
+        {{ print_r(Session::all()) }}
+    </pre>
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -42,7 +45,9 @@
 
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1">
 
-                {!! Form::open(['method' => 'POST']) !!}
+                @include('front.partials.messages')
+
+                {!! Form::open(['route' => 'register.preStore', 'method' => 'POST']) !!}
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre']) !!}

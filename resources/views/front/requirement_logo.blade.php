@@ -7,6 +7,10 @@
 @section('content')
     <?php setlocale(LC_ALL, 'es-mx') ?>
 
+    <pre>
+        {{ print_r(Session::all()) }}
+    </pre>
+
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -15,7 +19,7 @@
                     <div class="col-xs-4 col-sm-4 col-md-4 bs-wizard-step complete"><!--active-->
                         <div class="text-center bs-wizard-stepnum">1</div>
                         <div class="progress"><div class="progress-bar"></div></div>
-                        <a href="#" class="bs-wizard-dot"></a>
+                        <a href="{{ route('register') }}" class="bs-wizard-dot"></a>
                         <div class="bs-wizard-info text-center">DATOS DEL CLIENTE</div>
                     </div>
 
@@ -40,7 +44,7 @@
         <div class="row">
             <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1">
 
-                {!! Form::open(['method' => 'POST']) !!}
+                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST']) !!}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group custom-form-group">
                             {!! Form::text('company', null, ['class' => 'form-control', 'placeholder' => 'Nombre de la Empresa']) !!}

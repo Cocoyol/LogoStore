@@ -8,7 +8,7 @@
                     <div class="panel-heading">Nueva categoría</div>
                     <div class="panel-body">
 
-                        @include('admin.categories.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::open(['route' => 'admin.categories.store', 'method' => 'POST']) !!}
                         @include('admin.categories.partials.fields')

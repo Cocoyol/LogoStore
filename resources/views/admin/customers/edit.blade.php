@@ -8,7 +8,7 @@
                     <div class="panel-heading">Editar cliente {{ $customer->name }}</div>
                     <div class="panel-body">
 
-                        @include('admin.customers.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::model($customer, ['route' => ['admin.customers.update', $customer], 'method' => 'PUT']) !!}
                         @include('admin.customers.partials.fields')

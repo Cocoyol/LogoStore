@@ -22,17 +22,23 @@ Route::get('purchase/register', [
     'uses' => 'Frontend\HomeController@register_customer',
     'as'   => 'register'
 ]);
+Route::post('purchase/postRegister', [
+    'uses' => 'Frontend\HomeController@register_customer_preStore',
+    'as'   => 'register.preStore'
+]);
 
 Route::get('purchase/requirement',[
     'uses' => 'Frontend\HomeController@requirement_logo',
     'as'   => 'requirement'
 ]);
-
+Route::post('purchase/postRequirement',[
+    'uses' => 'Frontend\HomeController@requirement_logo_preStore',
+    'as'   => 'requirement.preStore'
+]);
 
 Route::get('purchase/summary',[
     'uses' => 'Frontend\HomeController@summary',
     'as'   => 'summary'
-
 ]);
 
 

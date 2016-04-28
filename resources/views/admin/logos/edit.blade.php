@@ -12,7 +12,7 @@
                     <div class="panel-heading">Editar Logo</div>
                     <div class="panel-body">
 
-                        @include('admin.logos.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::model($logo, ['route' => ['admin.logos.update', $logo], 'method' => 'PUT']) !!}
                         @include('admin.logos.partials.fields')
