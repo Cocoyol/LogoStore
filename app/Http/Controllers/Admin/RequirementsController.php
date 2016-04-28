@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use LogoStore\Http\Requests;
 use LogoStore\Http\Controllers\Controller;
 use LogoStore\Logo;
+use LogoStore\Order;
 
 class RequirementsController extends Controller
 {
@@ -89,9 +90,9 @@ class RequirementsController extends Controller
     /*
      * -- Operaciones con Logo
      */
-    public function listByLogo($logo_id)
+    public function listByOrder($order_id)
     {
-        $logo = Logo::with('requirements')->findOrFail($logo_id);
-        return $logo->requirements;
+        $order = Order::with('requirements')->findOrFail($order_id);
+        return $order->requirements;
     }
 }

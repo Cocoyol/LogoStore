@@ -248,6 +248,14 @@ hr{
     display: block;
 }
 
+.buy-now-disable a{
+    color: #ffffff;
+}
+
+.buy-now-disable a:hover{
+    text-decoration: none;
+}
+
 /*
 -------------------------------------------------------------------------------*/
 

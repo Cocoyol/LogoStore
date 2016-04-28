@@ -7,6 +7,7 @@
 
 @section('content')
 
+    {{ dump($logo->status) }}
     {{ Session::put('logo_id', $logo->id) }}
     <?php setlocale(LC_ALL, 'es-mx') ?>
     <div class="container">
@@ -59,10 +60,17 @@
                                 <span class="arrow-price">${{ $logo->price }}</span>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-3">
-                                <span class="buy-now center-block"><a href="{{route('register')}}">COMPRAR</a></span>
+                                <?php
+                                    $bn = "buy-now-disable";
+                                    $route = "javascript:;";
+                                    if($logo->status == "disponible") {
+                                        $bn = "buy-now";
+                                        $route = route('register');
+                                    }
+                                ?>
+                                <span class="{{ $bn }} center-block"><a href="{{ $route }}">COMPRAR</a></span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right custom-menu">
-                   <li><a href="">GALERÍA</a></li>
+                   <li><a href="{{ route('index') }}">GALERÍA</a></li>
                    <li><a href="">CATEGORÍAS</a></li>
                    <li><a href="">CÓMO COMPRAR</a></li>
                 </ul>

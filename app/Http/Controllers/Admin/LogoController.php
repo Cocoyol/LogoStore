@@ -27,7 +27,7 @@ class LogoController extends Controller
      */
     public function index()
     {
-        $logos = Logo::with(['category', 'keywords', 'requirements', 'images'])->orderBy('date', 'DESC')->paginate();
+        $logos = Logo::with(['category', 'keywords', 'images'])->orderBy('date', 'DESC')->paginate();
 
         return view('admin.logos.index', compact('logos'));
     }

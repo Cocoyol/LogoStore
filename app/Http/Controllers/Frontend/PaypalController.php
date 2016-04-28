@@ -44,8 +44,13 @@ class PaypalController extends Controller
             'terms' => 'required|in:true'
         ]);
 
-        if (!Session::has('logo_id'))
+        if (!Session::has('logo_id') ||
+            !Session::has('customer') ||
+            !Session::has('requirements')) {
             return redirect()->route('index');
+        }
+
+        Session::put('paypal', true);
 
         $logo = Logo::findorFail(Session::get('logo_id'));
 

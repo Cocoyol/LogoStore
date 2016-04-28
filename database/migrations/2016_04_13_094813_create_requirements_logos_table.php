@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePendingOrdersTable extends Migration
+class CreateRequirementsLogosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,20 +12,13 @@ class CreatePendingOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('pending_orders', function (Blueprint $table) {
+        Schema::create('requirements_logos', function (Blueprint $table) {
             $table->increments('id');
-
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone');
-
             $table->string('company');
             $table->longText('secondaryText');
 
-            $table->longText('details');
-
-            $table->integer('logo_id')->unsigned();
-            $table->foreign('logo_id')->references('id')->on('logos')->onDelete('cascade');
+            $table->integer('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
 
             $table->timestamps();
         });
@@ -38,6 +31,6 @@ class CreatePendingOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pending_orders');
+        Schema::drop('requirements_logos');
     }
 }

@@ -26,7 +26,6 @@
                 @endforeach</td>
             <td>
                 <a href="{{ route('admin.logos.edit', $logo) }}">Editar</a>
-                {!! ($logo->requirements != null) ? '<a href="'.route('logos.requirements', $logo).'">Requerimientos</a>' : '' !!}
                 <a href="{{ route('logos.images', $logo) }}">{{ $logo->images->count() ? "Modificar Im&aacute;genes" : "Agregar Im&aacute;genes" }}</a>
                 <a href="#!" class="btn-delete">Eliminar</a>
             </td>
