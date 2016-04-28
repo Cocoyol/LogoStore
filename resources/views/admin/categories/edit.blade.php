@@ -8,7 +8,7 @@
                     <div class="panel-heading">Editar categoría {{ $category->name }}</div>
                     <div class="panel-body">
 
-                        @include('admin.categories.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::model($category, ['route' => ['admin.categories.update', $category], 'method' => 'PUT']) !!}
                         @include('admin.categories.partials.fields')

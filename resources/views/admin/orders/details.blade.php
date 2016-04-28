@@ -7,7 +7,8 @@
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">&Oacute;rdenes</div>
-                    <ul class="panel-body">
+                    <div class="panel-body">
+                        @include('admin.partials.messages')
                         <h2>Logo</h2>
                         <ul class="nav nav-tabs">
                             <li role="presentation" class="active"><a href="#!">Informaci&oacute;n</a></li>

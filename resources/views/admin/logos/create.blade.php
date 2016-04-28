@@ -12,7 +12,7 @@
                     <div class="panel-heading">Nuevo Logo</div>
                     <div class="panel-body">
 
-                        @include('admin.logos.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::open(['route' => 'admin.logos.store', 'method' => 'POST']) !!}
                         @include('admin.logos.partials.fields')

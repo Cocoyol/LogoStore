@@ -8,7 +8,7 @@
                     <div class="panel-heading">Editar palabra clave {{ $keyword->name }}</div>
                     <div class="panel-body">
 
-                        @include('admin.keywords.partials.messages')
+                        @include('admin.partials.messages')
 
                         {!! Form::model($keyword, ['route' => ['admin.keywords.update', $keyword], 'method' => 'PUT']) !!}
                         @include('admin.keywords.partials.fields')
