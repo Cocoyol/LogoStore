@@ -52,11 +52,11 @@
                         <table class="table table-striped">
                             <tr>
                                 <td>Compa&ntilde;&iacute;a</td>
-                                <td>{{ $order->logo->requirements->company }}</td>
+                                <td>{{ $order->requirements->company }}</td>
                             </tr>
                             <tr>
                                 <td>Texto Secundario</td>
-                                <td>{{ $order->logo->requirements->secondaryText }}</td>
+                                <td>{{ $order->requirements->secondaryText }}</td>
                             </tr>
                         </table>
                     </div>

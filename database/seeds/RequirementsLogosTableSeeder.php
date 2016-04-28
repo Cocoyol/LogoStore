@@ -17,7 +17,7 @@ class RequirementsLogosTableSeeder extends BaseSeeder
         return [
             'company'   => $faker->unique()->company,
             'secondaryText'  => $faker->paragraph(),
-            'logo_id'  => $this->getRandomUnique('Order')->logo_id,
+            'order_id'  => $this->getRandomUnique('Order')->id,
         ];
     }
 }

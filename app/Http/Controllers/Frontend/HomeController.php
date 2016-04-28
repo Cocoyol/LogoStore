@@ -36,15 +36,18 @@ class HomeController extends Controller
     public function getRelatedByCategory(Logo $logo)
     {
         $relatedLogos = Category::find($logo->category->id)->logos()->where('id','<>',$logo->id)->orderByRaw('RAND()')->take(4)->get();
-        //$category = Category::with('logos')->findOrFail($logo->category->id);
         return $relatedLogos;
     }
 
     public function register_customer()
     {
-        if (!Session::has('logo_id'))
-            return redirect()->route('index');
-        return view('front.register_customer');
+        if (Session::has('logo_id')) {
+            $logo = Logo::findOrFail(Session::get('logo_id'));
+            if($logo->status == "disponible")
+                return view('front.register_customer');
+
+        }
+        return redirect()->route('index');
     }
 
     public function register_customer_preStore(CreateCustomerRequest $request)
@@ -57,9 +60,14 @@ class HomeController extends Controller
 
     public function requirement_logo()
     {
-        if (!Session::has('logo_id'))
-            return redirect()->route('index');
-        return view('front.requirement_logo');
+        if (Session::has('logo_id') &&
+            Session::has('customer')) {
+            $logo = Logo::findOrFail(Session::get('logo_id'));
+            if($logo->status == "disponible")
+                return view('front.requirement_logo');
+
+        }
+        return redirect()->route('index');
     }
 
     public function requirement_logo_preStore(CreateRequirementsLogoRequest $request)
@@ -72,43 +80,43 @@ class HomeController extends Controller
 
     public function summary()
     {
-        if (!Session::has('logo_id'))
-            return redirect()->route('index');
-
-        $logo = Logo::with(['category', 'keywords', 'images'])->findOrFail(Session::get('logo_id'));
-
-        return view('front.summary', compact('logo'));
+        if (Session::has('logo_id') &&
+            Session::has('customer') &&
+            Session::has('requirements')) {
+            $logo = Logo::with(['category', 'keywords', 'images'])->findOrFail(Session::get('logo_id'));
+            if($logo->status == "disponible")
+                return view('front.summary', compact('logo'));
+        }
+        return redirect()->route('index');
     }
 
     public function paymentMessages()
     {
-
-        if(Session::has('logo_id')) {
+        if (Session::has('logo_id') &&
+            Session::has('customer') &&
+            Session::has('requirements') &&
+            Session::has('paypal')) {
             $logo = Logo::findOrFail(Session::get('logo_id'));
 
             $customer = new Customer();
-            if (Session::has('customer')) {
-                $customer->name = Session::get('customer.name');
-                $customer->email = Session::get('customer.email');
-                $customer->phone = Session::get('customer.phone');
-                $customer->save();
-            }
-
-            $requirements = new RequirementsLogo();
-            if (Session::has('requirements')) {
-                $requirements->company = Session::get('requirements.company');
-                $requirements->secondaryText = Session::get('requirements.secondaryText');
-                $requirements->logo_id = Session::get('logo_id');
-                $requirements->save();
-            }
+            $customer->name = Session::get('customer.name');
+            $customer->email = Session::get('customer.email');
+            $customer->phone = Session::get('customer.phone');
+            $customer->save();
 
             $order = new Order();
-            if ($customer->id) {
-                $order->status = 'pendiente';
-                $order->logo_id = Session::get('logo_id');
-                $order->customer_id = $customer->id;
-                $order->save();
-            }
+            $order->status = 'pendiente';
+            $order->logo_id = Session::get('logo_id');
+            $order->customer_id = $customer->id;
+            $order->save();
+
+            $requirements = new RequirementsLogo();
+            $requirements->company = Session::get('requirements.company');
+            $requirements->secondaryText = Session::get('requirements.secondaryText');
+            $requirements->order_id = $order->id;
+            $requirements->save();
+
+
 
             Mail::send('mails.payment_info', ['logo' => $logo, 'customer' => $customer, 'requirements' => $requirements, 'order' => $order], function ($m) use ($customer) {
                 $m->from('logostore@app.com', 'Desde LogoStore para tí');
@@ -116,6 +124,7 @@ class HomeController extends Controller
             });
         }
 
+        Session::flush();
         return view('front.payment_messages');
     }
 

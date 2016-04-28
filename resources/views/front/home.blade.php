@@ -24,7 +24,11 @@
                                 <span class="arrow-price center-block">${{ $logo->price }}</span>
                             </div>
                             <div class="col-xs-6 col-sm-12 col-md-6">
-                                <span class="buy-now center-block"><a href="{{ route('detail', $logo) }}">COMPRAR</a></span>
+                                <?php
+                                $bn = "buy-now-disable";
+                                if($logo->status == "disponible") { $bn = "buy-now"; }
+                                ?>
+                                <span class="{{ $bn }} center-block"><a href="{{ route('detail', $logo) }}">COMPRAR</a></span>
                             </div>
                         </div>
                     </div>

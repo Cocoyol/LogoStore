@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class RequirementsLogo extends Model
 {
     protected $fillable = [
-        'company', 'secondaryText', 'logo_id'
+        'company', 'secondaryText', 'order_id'
     ];
 
-    public function logos()
+    public function order()
     {
-        return $this->belongsTo(Logo::class);
+        return $this->belongsTo(Order::class);
     }
 }

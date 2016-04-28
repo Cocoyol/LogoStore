@@ -20,4 +20,9 @@ class Order extends Model
     {
         return $this->belongsTo(Customer::class);
     }
+
+    public function requirements()
+    {
+        return $this->hasOne(RequirementsLogo::class);
+    }
 }
