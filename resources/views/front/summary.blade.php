@@ -94,17 +94,8 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="col-xs-12 col-sm-6 col-md-6">
-                    <span class="btn-pay-cancel center-block"><a href="">CANCELAR</a></span>
-                </div>
-                <div class="col-xs-12 col-sm-6 col-md-6" style="text-align: center;">
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                        <input type="hidden" name="cmd" value="_s-xclick">
-                        <input type="hidden" name="hosted_button_id" value="C7GKHMX82CFH8">
-                        <input type="image" src="https://www.paypalobjects.com/es_XC/MX/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
-                        <img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
-                    </form>
-
+                <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center;">
+                    <span class="btn-pay-cancel center-block"><a href="{{route('payment')}}">Pagar ahora</a></span>
                 </div>
             </div>
         </div>
