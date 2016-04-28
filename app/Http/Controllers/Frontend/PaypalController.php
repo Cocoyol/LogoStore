@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use LogoStore\Http\Requests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
+use LogoStore\Logo;
 use PayPal\Rest\ApiContext;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Api\Amount;
@@ -38,16 +39,26 @@ class PaypalController extends Controller
 
     public function postPayment(Request $request)
     {
+
+        $this->validate($request, [
+            'terms' => 'required|in:true'
+        ]);
+
+        if (!Session::has('logo_id'))
+            return redirect()->route('index');
+
+        $logo = Logo::findorFail(Session::get('logo_id'));
+
         $payer =  new  Payer();
         $payer->setPaymentMethod('paypal');
 
-        $total = 21;
+        $total = $logo->price;
         $currency = 'MXN';
 
         $item = new Item();
-        $item->setName('Producto prueba')
+        $item->setName('Logo - '.$logo->name)
             ->setCurrency($currency)
-            ->setDescription('Este es un producto para motivos de prueba')
+            ->setDescription($logo->description)
             ->setQuantity('1')
             ->setPrice($total);
 
@@ -67,7 +78,7 @@ class PaypalController extends Controller
         $transaction = new Transaction();
         $transaction->setAmount($amount)
             ->setItemList($item_list)
-            ->setDescription("Pedido de prueba con laravel");
+            ->setDescription("Compra realizada en LogoStore");
 
 
         //dd(\URL::route('payment.status'));
@@ -130,7 +141,7 @@ class PaypalController extends Controller
 
         if(empty($payerId)|| empty($token))
         {
-           return redirect()->route('front.home')->with('message', 'Hubo un problema al intentar pagar con paypal');
+           return redirect()->route('payment.messages')->with('message', 'Hubo un problema al intentar pagar con paypal');
         }
 
         $payment = Payment::get($payment_id, $this->_api_context);
@@ -143,11 +154,11 @@ class PaypalController extends Controller
 
         if($result->getState() == 'approved')
         {
-           return redirect()->route('front.home')->with('message', 'Compra fue realizada de forma correcta');
+           return redirect()->route('payment.messages')->with('message', 'Compra fue realizada de forma correcta');
         }
 
 
-        return redirect()->route('front.home')->with('message', 'Compra fue cancelada');
+        return redirect()->route('payment.messages')->with('message', 'Compra fue cancelada');
 
 
     }

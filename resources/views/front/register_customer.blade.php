@@ -50,17 +50,17 @@
                 {!! Form::open(['route' => 'register.preStore', 'method' => 'POST']) !!}
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre']) !!}
+                        {!! Form::text('name', Session::has('customer') ? Session::get('customer.name') : null, ['class' => 'form-control', 'placeholder' => 'Nombre']) !!}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'Email']) !!}
+                        {!! Form::email('email', Session::has('customer') ? Session::get('customer.email') : null, ['class' => 'form-control', 'placeholder' => 'Email']) !!}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        {!! Form::tel('phone', null, ['class' => 'form-control', 'placeholder' => 'Teléfono']) !!}
+                        {!! Form::tel('phone', Session::has('customer') ? Session::get('customer.phone') : null, ['class' => 'form-control', 'placeholder' => 'Teléfono']) !!}
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">

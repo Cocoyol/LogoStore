@@ -11,7 +11,10 @@
 |
 */
 
-Route::get('/', 'Frontend\HomeController@index');
+Route::get('/', [
+    'uses' => 'Frontend\HomeController@index',
+    'as'   => 'index'
+]);
 
 Route::get('detail/{id}', [
     'uses' => 'Frontend\HomeController@detail',
@@ -43,7 +46,7 @@ Route::get('purchase/summary',[
 
 
 Route::get('payment', [
-    'uses' => 'Frontend\PaypsalController@postPayment',
+    'uses' => 'Frontend\PaypalController@postPayment',
     'as'   => 'payment'
 ]);
 
@@ -51,6 +54,11 @@ Route::get('payment', [
 Route::get('payment/status', [
     'uses' => 'Frontend\PaypalController@getPaymentStatus',
     'as' => 'payment.status'
+]);
+
+Route::get('payment/success', [
+    'uses' => 'Frontend\HomeController@paymentMessages',
+    'as'   => 'payment.messages'
 ]);
 
 
