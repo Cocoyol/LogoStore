@@ -7,7 +7,6 @@
 
 @section('content')
 
-    {{ dump($logo->status) }}
     {{ Session::put('logo_id', $logo->id) }}
     <?php setlocale(LC_ALL, 'es-mx') ?>
     <div class="container">

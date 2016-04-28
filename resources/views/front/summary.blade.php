@@ -6,12 +6,6 @@
 
 @section('content')
     <?php setlocale(LC_ALL, 'es-mx') ?>
-
-    <pre>
-        {{ print_r(Session::all()) }}
-    </pre>
-
-    <?php setlocale(LC_ALL, 'es-mx') ?>
     {!! Form::open(['route' => 'payment', 'method' => 'GET']) !!}
         <div class="container">
             <div class="row">
@@ -113,7 +107,5 @@
             </div>
         </div>
     {!! Form::close() !!}
-
-
 
 @endsection
