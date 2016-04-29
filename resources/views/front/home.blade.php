@@ -44,8 +44,15 @@
                     <div class="col-xs-12 col-sm-3 col-md-3">
                         <div class="{{ $solid }}"></div>
                         <div class="img-wrapp-logo">
-                            {{ Html::image(($logo->images->count()) ? asset('storage/imagesLogos').'/'.$logo->images->first()->filename : $default, 'product',['class' => 'img-responsive center-block']) }}
-                        </div>
+                            <?php
+                                $imageUrl = $default;
+                                if($logo->images->count()){
+                                    $tmpname = pathinfo($logo->images->first()->filename, PATHINFO_FILENAME);
+                                    $imageUrl = asset('storage/imagesLogos').'/'.$tmpname.'_thumb.jpg';
+                                }
+                            ?>
+                            {{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}
+                    </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">
                                 <span class="arrow-price center-block">${{ $logo->price }}</span>

@@ -136,6 +136,17 @@ class ImagesLogoController extends Controller
                 $fileNewName = encodeFilename($file->getClientOriginalName());
 
                 $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, File::get($file));
+                //$imagePath = public_path('storage').'/imageLogos/'.$fileNewName;
+                //$thumPath = public_path('storage').'/imageLogos/'.$fileNewName.'_thumb';
+                $imagePath = asset('storage/imagesLogos').'/'.$fileNewName;
+                $tmpname = pathinfo($fileNewName, PATHINFO_FILENAME);
+
+                $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb.jpg';
+                resizeImage($imagePath, 230, 230, $thumbPath);
+                $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb2.jpg';
+                resizeImage($imagePath, 729, 510, $thumbPath);
+                $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb3.jpg';
+                resizeImage($imagePath, 328, 212, $thumbPath);
 
                 $response = json_encode((object)["error" => "No fue posible almacenar la imagen ".$file->getClientOriginalName()]);
                 if ($val) {
