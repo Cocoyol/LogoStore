@@ -6,8 +6,13 @@
             </div>
         </div>
         <div class="row">
+
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
-                {!! Form::open(['method' => 'POST']) !!}
+                <div>
+                    @include('front.partials.messages')
+                </div>
+
+                {!! Form::open(['route' => 'contact.message', 'method' => 'POST']) !!}
                     <div class="col-xs-12 col-sm-6 col-md-6">
                         <div class="form-group">
                             {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nombre']) !!}
@@ -25,7 +30,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
-                            {!! Form::textarea('comments', null, ['class' => 'form-control', 'rows' => '6', 'placeholder' => 'Comentarios']) !!}
+                            {!! Form::textarea('message', null, ['class' => 'form-control', 'rows' => '6', 'placeholder' => 'Comentarios']) !!}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12">

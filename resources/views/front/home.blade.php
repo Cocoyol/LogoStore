@@ -9,7 +9,12 @@
             switch ($type) {
                 case 'category' :
                     $page = $obj->name;
-                    $result_name = "Categor&iacute;a: $obj->name";
+                    $result_name = '
+                    <ol class="breadcrumb">
+                    <li>Categor&iacute;a</li>
+                    <li class="active">'.$obj->name.'</li>
+                </ol>
+                    ';
                     break;
                 case 'search' :
                     $page = "B&uacute;squeda";
@@ -27,9 +32,13 @@
 @section('content')
 
     <div class="container">
-        <div class='row'>{{ $result_name }}</div>
         @include('front.partials.filters')
-        <div class="clearfix"></div>
+        <div class="clearfix">&nbsp;</div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                {!! $result_name !!}
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
 
