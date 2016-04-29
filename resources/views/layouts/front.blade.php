@@ -15,6 +15,8 @@
     {!! Html::style('assets/css/bootstrap.css') !!}
     {!! Html::style('assets/css/main.css') !!}
 
+    @yield('styles')
+
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">

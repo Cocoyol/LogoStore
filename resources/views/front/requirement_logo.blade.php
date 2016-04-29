@@ -7,10 +7,6 @@
 @section('content')
     <?php setlocale(LC_ALL, 'es-mx') ?>
 
-    <pre>
-        {{ print_r(Session::all()) }}
-    </pre>
-
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -46,7 +42,7 @@
 
                 @include('front.partials.messages')
 
-                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST']) !!}
+                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST'])!!}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group custom-form-group">
                             {!! Form::text('company', Session::has('requirements') ? Session::get('requirements.company') : null, ['class' => 'form-control', 'placeholder' => 'Nombre de la Empresa']) !!}
@@ -61,7 +57,7 @@
                     </div>
                     <p>&nbsp;</p>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <button type="submit" class="btn btn-success center-block">CONTINUAR</button>
+                        <button type="submit" class="btn btn-success center-block" data-toggle="modal" data-target="#myModal">CONTINUAR</button>
                     </div>
                     <p>&nbsp;</p>
                 {!! Form::close() !!}
@@ -69,4 +65,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>-->
 @endsection

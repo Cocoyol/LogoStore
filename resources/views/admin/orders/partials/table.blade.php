@@ -4,6 +4,7 @@
         <th>Cliente</th>
         <th>Logo</th>
         <th>Detalles</th>
+        <th>Estatus</th>
         <th>Fecha</th>
         <th>Acciones</th>
     </tr>
@@ -11,9 +12,10 @@
     @foreach($orders as $order)
         <tr data-id="{{ $order->id  }}">
             <td>{{ $order->id }}</td>
-            <td>{{ $order->logo->name }}</td>
             <td>{{ $order->customer->name }}</td>
+            <td>{{ $order->logo->name }}</td>
             <td>{{ $order->details }}</td>
+            <td>{{ $order->status }}</td>
             <td>{{ $order->created_at }}</td>
             <td>
                 <a href="{{ route('admin.orders.show', $order) }}">Detalles</a>
