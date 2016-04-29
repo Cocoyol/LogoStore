@@ -14,6 +14,7 @@ use LogoStore\Http\Controllers\Controller;
 
 use LogoStore\Http\Requests\CreateCustomerRequest;
 use LogoStore\Http\Requests\CreateRequirementsLogoRequest;
+use LogoStore\Http\Requests\ValidateFromContactRequest;
 use LogoStore\Logo;
 use LogoStore\PendingOrder;
 use LogoStore\RequirementsLogo;
@@ -146,6 +147,19 @@ class HomeController extends Controller
         }
 
         return redirect()->route('index');
+    }
+
+
+    public function messageContact(ValidateFromContactRequest $request)
+    {
+        $user_contact = ['name' => $request->get('name'), 'email' => $request->get('email'), 'phone' => $request->get('phone'), 'message' => $request->get('message')];
+
+        Mail::send('mails.contact', ['user_contact' => $user_contact], function ($m) use ($user_contact) {
+            $m->from('logostore@app.com', 'LogoStore');
+            $m->to('eli.magana@imaginaestudio.mx')->subject('Contact from web page!');
+        });
+
+        return view('front.thankyou_contact');
     }
 
 }
