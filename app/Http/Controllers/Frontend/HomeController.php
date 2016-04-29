@@ -22,7 +22,7 @@ use LogoStore\Order;
 class HomeController extends Controller
 {
     public function index(){
-        $logos = Logo::with(['category', 'keywords', 'images'])->orderBy('date', 'DESC')->paginate(12);
+        $logos = Logo::with('images')->orderBy('date', 'DESC')->paginate(12);
         return view('front.home', compact('logos'));
     }
 
@@ -39,6 +39,26 @@ class HomeController extends Controller
         return $relatedLogos;
     }
 
+    public function logosByCategory($category_id)
+    {
+        $category = Category::findOrFail($category_id);
+        $data = ['category', $category];
+        $logos = Logo::where('category_id', $category->id)->with('images')->orderBy('date', 'DESC')->paginate(12);
+        return view('front.home', compact('logos', 'data'));
+    }
+
+    public function SearchLogos(Request $request) {
+        //dd($request->all());
+        $str = $request->get('search');
+        $logos = Logo::where(function ($query) use($str) {
+                $query->where('name', 'LIKE', '%'.$str.'%')->orWhere('description', 'LIKE', '%'.$str.'%');
+            })->orderBy('date', 'DESC')->paginate(12);
+        $data = ['search', $request->get('search')];
+        //dd($data);
+        return view('front.home', compact('logos', 'data'));
+    }
+
+    /** Purchase **/
     public function register_customer()
     {
         if (Session::has('logo_id')) {
@@ -116,16 +136,16 @@ class HomeController extends Controller
             $requirements->order_id = $order->id;
             $requirements->save();
 
-
-
             Mail::send('mails.payment_info', ['logo' => $logo, 'customer' => $customer, 'requirements' => $requirements, 'order' => $order], function ($m) use ($customer) {
                 $m->from('logostore@app.com', 'Desde LogoStore para tí');
                 $m->to('eli.magana@imaginaestudio.mx')->cc($customer->email, $customer->name)->subject('Your Reminder!');
             });
+
+            Session::flush();
+            return view('front.payment_messages');
         }
 
-        Session::flush();
-        return view('front.payment_messages');
+        return redirect()->route('index');
     }
 
 }

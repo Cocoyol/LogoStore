@@ -54,3 +54,25 @@ function validateImage($file)
     }
     return false;
 }
+
+
+// DIVIDE UN ARRAY EN N PARTES SIMILARES
+
+function nChunks($collection, $n)
+{
+    $chunks = collect();
+    $Sz = $collection->count();
+    if($Sz > $n) {
+        $chunkSz = floor($Sz / $n);
+        $mod = $Sz % $n;
+        $base = 0;
+        while ($n-- > 0) {
+            $length = $chunkSz;
+            if ($mod-- > 0) $length++;
+            $chunks->push($collection->slice($base, $length));
+            $base += $length;
+        }
+        return $chunks;
+    }
+    return $collection;
+}

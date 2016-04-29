@@ -11,43 +11,54 @@
 |
 */
 
-Route::get('/', [
-    'uses' => 'Frontend\HomeController@index',
-    'as'   => 'index'
-]);
+Route::group(['namespace' => 'Frontend'], function() {
+    Route::get('/', [
+        'uses' => 'HomeController@index',
+        'as' => 'index'
+    ]);
 
-Route::get('detail/{id}', [
-    'uses' => 'Frontend\HomeController@detail',
-    'as'   => 'detail'
-]);
+    Route::get('category/{category_id}', [
+        'uses' => 'HomeController@logosByCategory',
+        'as'   => 'category'
+    ]);
 
-Route::get('purchase/register', [
-    'uses' => 'Frontend\HomeController@register_customer',
-    'as'   => 'register'
-]);
-Route::post('purchase/postRegister', [
-    'uses' => 'Frontend\HomeController@register_customer_preStore',
-    'as'   => 'register.preStore'
-]);
+    Route::get('search', [
+        'uses' => 'HomeController@SearchLogos',
+        'as'   => 'search'
+    ]);
 
-Route::get('purchase/requirement',[
-    'uses' => 'Frontend\HomeController@requirement_logo',
-    'as'   => 'requirement'
-]);
-Route::post('purchase/postRequirement',[
-    'uses' => 'Frontend\HomeController@requirement_logo_preStore',
-    'as'   => 'requirement.preStore'
-]);
+    Route::get('detail/{id}', [
+        'uses' => 'HomeController@detail',
+        'as' => 'detail'
+    ]);
 
-Route::get('purchase/summary',[
-    'uses' => 'Frontend\HomeController@summary',
-    'as'   => 'summary'
-]);
+    Route::get('purchase/register', [
+        'uses' => 'HomeController@register_customer',
+        'as' => 'register'
+    ]);
+    Route::post('purchase/postRegister', [
+        'uses' => 'HomeController@register_customer_preStore',
+        'as' => 'register.preStore'
+    ]);
 
+    Route::get('purchase/requirement', [
+        'uses' => 'HomeController@requirement_logo',
+        'as' => 'requirement'
+    ]);
+    Route::post('purchase/postRequirement', [
+        'uses' => 'HomeController@requirement_logo_preStore',
+        'as' => 'requirement.preStore'
+    ]);
+
+    Route::get('purchase/summary', [
+        'uses' => 'HomeController@summary',
+        'as' => 'summary'
+    ]);
+});
 
 Route::get('payment', [
     'uses' => 'Frontend\PaypalController@postPayment',
-    'as'   => 'payment'
+    'as' => 'payment'
 ]);
 
 // Después de realizar el pago Paypal redirecciona a esta ruta
