@@ -40,9 +40,19 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right custom-menu">
-                   <li><a href="{{ route('index') }}">GALERÍA</a></li>
-                   <li><a href="">CATEGORÍAS</a></li>
-                   <li><a href="">CÓMO COMPRAR</a></li>
+                    <li><a href="{{ route('index') }}">GALERÍA</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" id="categoriesMenu" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            CATEGOR&Iacute;AS
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriesMenu">
+                            <?php $categories = \LogoStore\Category::get(['id', 'name']) ?>
+                            @foreach($categories as $category)
+                                <li><a href="{{ route('category', $category->id) }}">{{ $category->name }}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                    <li><a href="">C&Oacute;MO COMPRAR</a></li>
                 </ul>
 
             </div>

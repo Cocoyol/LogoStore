@@ -1,13 +1,33 @@
 @extends('layouts.front')
 
+<?php
+        $page = "Home";
+        $result_name = "";
+        if(isset($data)) {
+            $type = $data[0];
+            $obj = $data[1];
+            switch ($type) {
+                case 'category' :
+                    $page = $obj->name;
+                    $result_name = "Categor&iacute;a: $obj->name";
+                    break;
+                case 'search' :
+                    $page = "B&uacute;squeda";
+                    $result_name = "B&uacute;squeda: $obj";
+                    break;
+            }
+        }
+
+?>
 
 @section('title')
-    Logo Store - Home
+    Logo Store - {{ $page }}
 @endsection
 
 @section('content')
 
     <div class="container">
+        <div class='row'>{{ $result_name }}</div>
         @include('front.partials.filters')
         <div class="clearfix"></div>
         <div class="row">
