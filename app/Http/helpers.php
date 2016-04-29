@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
+use \Intervention\Image\ImageManagerStatic as Image;
 
 /**
  * @param $OriginalName
@@ -53,6 +54,30 @@ function validateImage($file)
         }
     }
     return false;
+}
+
+// Image resize
+
+function resizeImage($imagePath, $w, $h, $thumbPath){
+    $img = Image::make($imagePath);
+    $h2 = $img->height();
+    $w2 = $img->width();
+
+    if($w2 <= $h2)
+    {
+        $img->resize($w, null, function($c){
+            $c->aspectRatio();
+        });
+        $img->crop($w, $h);
+    }else
+    {
+        $img->resize(null, $h, function($c){
+            $c->aspectRatio();
+        });
+        $img->crop($w, $h);
+    }
+    $img->resize($w, $h);
+    $img->save($thumbPath);
 }
 
 
