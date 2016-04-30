@@ -138,7 +138,8 @@ class ImagesLogoController extends Controller
                 $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, File::get($file));
                 //$imagePath = public_path('storage').'/imageLogos/'.$fileNewName;
                 //$thumPath = public_path('storage').'/imageLogos/'.$fileNewName.'_thumb';
-                $imagePath = asset('storage/imagesLogos').'/'.$fileNewName;
+                $imagePath = public_path('storage').'\\imagesLogos\\'.$fileNewName;
+                //$imagePath = asset('storage/imagesLogos').'/'.$fileNewName;
                 $tmpname = pathinfo($fileNewName, PATHINFO_FILENAME);
 
                 $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb.jpg';

@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -161,6 +161,11 @@ return [
         LogoStore\Providers\EventServiceProvider::class,
         LogoStore\Providers\RouteServiceProvider::class,
 
+        /*
+         * Intervention
+         */
+        Intervention\Image\ImageServiceProvider::class
+
     ],
 
     /*
@@ -212,6 +217,11 @@ return [
          */
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        /*
+         * Intervention
+         */
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 

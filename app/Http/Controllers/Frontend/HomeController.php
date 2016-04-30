@@ -21,8 +21,26 @@ use LogoStore\Order;
 
 class HomeController extends Controller
 {
-    public function index(){
-        $logos = Logo::with('images')->orderBy('date', 'DESC')->paginate(12);
+    public function index(Request $request)
+    {
+        // -- Validar Request
+        $this->validate($request,[
+            'pp' => 'integer|in:12,24,36,48',
+            'o'  => 'integer|in:1,2,3'
+        ]);
+
+        // -- Inicializar valores
+        $perPage = intval($request->exists('pp')?$request->get('pp'):'12');
+        $orderBy = ['status', 'ASC'];
+        if($request->exists('o')) {
+            switch ($request->get('o')) {
+                case '2' : $orderBy = ['price', 'DESC']; break;
+                case '3' : $orderBy = ['price', 'ASC']; break;
+            }
+        }
+
+        // -- Hacer consulta
+        $logos = Logo::orderBy($orderBy[0], $orderBy[1])->paginate($perPage);
         return view('front.home', compact('logos'));
     }
 
@@ -39,23 +57,63 @@ class HomeController extends Controller
         return $relatedLogos;
     }
 
-    public function logosByCategory($category_id)
+    public function logosByCategory($category_id, Request $request)
     {
+        // -- Validar Request
+        $this->validate($request,[
+            'pp' => 'integer|in:12,24,36,48',
+            'o'  => 'integer|in:1,2,3'
+        ]);
+
+        // -- Inicializar valores
+        $perPage = intval($request->exists('pp')?$request->get('pp'):'12');
+        $orderBy = ['status', 'ASC'];
+        if($request->exists('o')) {
+            switch ($request->get('o')) {
+                case '2' : $orderBy = ['price', 'DESC']; break;
+                case '3' : $orderBy = ['price', 'ASC']; break;
+            }
+        }
+
+        // -- Hacer consulta
         $category = Category::findOrFail($category_id);
         $data = ['category', $category];
-        $logos = Logo::where('category_id', $category->id)->with('images')->orderBy('date', 'DESC')->paginate(12);
+        $logos = Logo::where('category_id', $category->id)->with('images')->orderBy($orderBy[0], $orderBy[1])->paginate($perPage);
         return view('front.home', compact('logos', 'data'));
     }
 
     public function SearchLogos(Request $request) {
-        //dd($request->all());
+        // -- Validar Request
+        $this->validate($request,[
+            'pp' => 'integer|in:12,24,36,48',
+            'o'  => 'integer|in:1,2,3'
+        ]);
+
+        // -- Inicializar valores
         $str = $request->get('search');
-        $logos = Logo::where(function ($query) use($str) {
-                $query->where('name', 'LIKE', '%'.$str.'%')->orWhere('description', 'LIKE', '%'.$str.'%');
-            })->orderBy('date', 'DESC')->paginate(12);
-        $data = ['search', $request->get('search')];
-        //dd($data);
-        return view('front.home', compact('logos', 'data'));
+        $perPage = intval($request->exists('pp')?$request->get('pp'):'12');
+        $orderBy = ['logos.status', 'ASC'];
+        if($request->exists('o')) {
+            switch ($request->get('o')) {
+                case '2' : $orderBy = ['logos.price', 'DESC']; break;
+                case '3' : $orderBy = ['logos.price', 'ASC']; break;
+            }
+        }
+
+        // -- Hacer consulta
+        if(!empty($str)) {
+            $logos = Logo::leftJoin('keyword_logos', 'logos.id', '=', 'keyword_logos.logo_id')
+                ->join('keywords', 'keyword_logos.keyword_id', '=', 'keywords.id')
+                ->where('logos.name', 'LIKE', '%' . $str . '%')->orWhere(function ($query) use ($str) {
+                    $query->where('logos.description', 'LIKE', '%' . $str . '%')->where('logos.status', 'disponible');
+                })->orWhere(function ($query) use ($str) {
+                    $query->where('keywords.name', 'LIKE', $str)->where('logos.status', 'disponible');
+                })->orderBy($orderBy[0], $orderBy[1])->groupBy('logos.id')->paginate($perPage);
+
+            $data = ['search', $request->get('search')];
+            return view('front.home', compact('logos', 'data'));
+        }
+        return redirect()->route('index');
     }
 
     /** Purchase **/

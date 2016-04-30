@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Storage;
-use \Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\Facades\Image;
 
 /**
  * @param $OriginalName
@@ -56,7 +56,8 @@ function validateImage($file)
     return false;
 }
 
-// Image resize
+
+// REDIMENSIONA LA IMAGEN (Requiere 'Intervention')
 
 function resizeImage($imagePath, $w, $h, $thumbPath){
     $img = Image::make($imagePath);

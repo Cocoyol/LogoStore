@@ -19,6 +19,7 @@
 
 </head>
 <body id="app-layout">
+
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -62,6 +63,7 @@
     </nav>
 
     @yield('content')
+
     @include('front.partials.contact_form')
     @include('front.partials.footer')
     <!-- JavaScripts -->
