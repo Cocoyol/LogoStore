@@ -54,6 +54,12 @@ Route::group(['namespace' => 'Frontend'], function() {
         'uses' => 'HomeController@summary',
         'as' => 'summary'
     ]);
+
+    Route::post('contact/form', [
+        'uses' => 'HomeController@messageContact',
+        'as' => 'contact.message'
+    ]);
+
 });
 
 Route::get('payment', [

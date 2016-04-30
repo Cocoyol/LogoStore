@@ -135,6 +135,19 @@ hr{
     line-height: 35px !important;
 }
 
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #555;
+    background-color: #3b4f73;
+}
+
+.dropdown-menu {
+    background-color: #3b4f73 !important;
+}
+
+.breadcrumb {
+ background-color: transparent !important;
+}
+
 .contact_section{
     background-color: #47618f;
 }
