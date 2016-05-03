@@ -6,6 +6,14 @@ use LogoStore\Http\Requests\Request;
 
 class ValidateFromContactRequest extends Request
 {
+
+    /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
+    protected $errorBag = 'contact';
+
     /**
      * Determine if the user is authorized to make this request.
      *

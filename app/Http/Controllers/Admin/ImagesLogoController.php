@@ -15,6 +15,15 @@ use LogoStore\Logo;
 class ImagesLogoController extends Controller
 {
 
+    /*
+     * -- Prefijos y tamaños de thumbnails
+     */
+    protected $thumbs = [
+        "_thumb" => [230, 230],
+        "_thumb2" => [729, 510],
+        "_thumb3" => [328, 212]
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -98,12 +107,18 @@ class ImagesLogoController extends Controller
         $response = json_encode((object)["La imagen no existe ya."]);
         if(Storage::disk('local')->exists('imagesLogos/'.$image->filename)) {
 
+            $filename = extractFilename($image->filename);
+            $extension = extractExtension($image->filename);
+
             Storage::disk('local')->delete('imagesLogos/'.$image->filename);
-            $image->delete();
+            foreach($this->thumbs as $thumbKey => $thumb) {
+                Storage::disk('local')->delete('imagesLogos/'.$filename.$thumbKey.'.'.$extension);
+            }
 
             $response = json_encode((object)["error" => "La imagen ".$image->filename." NO ha sido eliminada."]);
             if(!Storage::disk('local')->exists('imagesLogos/'.$image->filename)) {
                 $response = json_encode((object)["La imagen " . $image->filename . " ha sido eliminada."]);
+                $image->delete();
             }
         }
         return $response;
@@ -135,19 +150,16 @@ class ImagesLogoController extends Controller
 
                 $fileNewName = encodeFilename($file->getClientOriginalName());
 
-                $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, File::get($file));
-                //$imagePath = public_path('storage').'/imageLogos/'.$fileNewName;
-                //$thumPath = public_path('storage').'/imageLogos/'.$fileNewName.'_thumb';
-                $imagePath = public_path('storage').'\\imagesLogos\\'.$fileNewName;
-                //$imagePath = asset('storage/imagesLogos').'/'.$fileNewName;
-                $tmpname = pathinfo($fileNewName, PATHINFO_FILENAME);
+                $val = Storage::disk('local')->put('imagesLogos/' . $fileNewName, file_get_contents($file->getRealPath()));
 
-                $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb.jpg';
-                resizeImage($imagePath, 230, 230, $thumbPath);
-                $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb2.jpg';
-                resizeImage($imagePath, 729, 510, $thumbPath);
-                $thumbPath = public_path('storage').'\\imagesLogos\\'.$tmpname.'_thumb3.jpg';
-                resizeImage($imagePath, 328, 212, $thumbPath);
+                $imagePath = public_path('storage/imagesLogos/'.$fileNewName);
+                $filename = extractFilename($fileNewName);
+                $extension = extractExtension($fileNewName);
+
+                foreach($this->thumbs as $thumbKey => $thumb) {
+                    $thumbPath = public_path('storage/imagesLogos/'.$filename.$thumbKey.'.'.$extension);
+                    resizeImage($imagePath, $thumb[0], $thumb[1], $thumbPath);
+                }
 
                 $response = json_encode((object)["error" => "No fue posible almacenar la imagen ".$file->getClientOriginalName()]);
                 if ($val) {

@@ -71,7 +71,7 @@
                         <ul class="dropdown-menu" aria-labelledby="categoriesMenu">
                             <?php $categories = \LogoStore\Category::get(['id', 'name']) ?>
                             @foreach($categories as $category)
-                                <li><a href="{{ route('category', $category->id) }}">{{ $category->name }}</a></li>
+                                <li><a href="{{ route('index')."?type=1&search=$category->id" }}">{{ $category->name }}</a></li>
                             @endforeach
                         </ul>
                     </li>

@@ -24,25 +24,46 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+
         // -- Validar Request
         $this->validate($request,[
-            'pp' => 'integer|in:12,24,36,48',
-            'o'  => 'integer|in:1,2,3'
+            'type'   => 'integer|in:1,2',
+            'search' => 'string',
+            'pp'     => 'integer|in:12,24,36,48',
+            'o'      => 'integer|in:1,2,3'
         ]);
 
         // -- Inicializar valores
+        $data = [];
         $perPage = intval($request->exists('pp')?$request->get('pp'):'12');
-        $orderBy = ['status', 'ASC'];
+        $orderBy = ['logos.status', 'ASC'];
         if($request->exists('o')) {
             switch ($request->get('o')) {
-                case '2' : $orderBy = ['price', 'DESC']; break;
-                case '3' : $orderBy = ['price', 'ASC']; break;
+                case '2' : $orderBy = ['logos.price', 'DESC']; break;
+                case '3' : $orderBy = ['logos.price', 'ASC']; break;
             }
         }
 
         // -- Hacer consulta
-        $logos = Logo::orderBy($orderBy[0], $orderBy[1])->paginate($perPage);
-        return view('front.home', compact('logos'));
+        if($request->exists('type') && $request->exists('search')) {
+            if(!empty($request->get('search'))) {
+                switch ($request->get('type')) {
+                    case 1 :
+                        $logos = $this->logosByCategory($request->get('search'), $orderBy[0], $orderBy[1], $perPage);
+                        $data = ['category', $request->get('search')];
+                        break;
+                    case 2:
+                        $logos = $this->searchLogos($request->get('search'), $orderBy[0], $orderBy[1], $perPage);
+                        $data = ['search', $request->get('search')];
+                }
+            } else {
+                $logos = Logo::orderBy($orderBy[0], $orderBy[1])->paginate($perPage);
+            }
+        } else {
+            $logos = Logo::orderBy($orderBy[0], $orderBy[1])->paginate($perPage);
+        }
+
+        return view('front.home', compact('logos', 'data'));
     }
 
     public function detail($id)
@@ -58,63 +79,21 @@ class HomeController extends Controller
         return $relatedLogos;
     }
 
-    public function logosByCategory($category_id, Request $request)
+    public function logosByCategory($str, $order, $by, $perPage)
     {
-        // -- Validar Request
-        $this->validate($request,[
-            'pp' => 'integer|in:12,24,36,48',
-            'o'  => 'integer|in:1,2,3'
-        ]);
-
-        // -- Inicializar valores
-        $perPage = intval($request->exists('pp')?$request->get('pp'):'12');
-        $orderBy = ['status', 'ASC'];
-        if($request->exists('o')) {
-            switch ($request->get('o')) {
-                case '2' : $orderBy = ['price', 'DESC']; break;
-                case '3' : $orderBy = ['price', 'ASC']; break;
-            }
-        }
-
-        // -- Hacer consulta
-        $category = Category::findOrFail($category_id);
-        $data = ['category', $category];
-        $logos = Logo::where('category_id', $category->id)->with('images')->orderBy($orderBy[0], $orderBy[1])->paginate($perPage);
-        return view('front.home', compact('logos', 'data'));
+        $logos = Logo::where('category_id', $str)->with('images')->orderBy($order, $by)->paginate($perPage);
+        return $logos;
     }
 
-    public function SearchLogos(Request $request) {
-        // -- Validar Request
-        $this->validate($request,[
-            'pp' => 'integer|in:12,24,36,48',
-            'o'  => 'integer|in:1,2,3'
-        ]);
-
-        // -- Inicializar valores
-        $str = $request->get('search');
-        $perPage = intval($request->exists('pp')?$request->get('pp'):'12');
-        $orderBy = ['logos.status', 'ASC'];
-        if($request->exists('o')) {
-            switch ($request->get('o')) {
-                case '2' : $orderBy = ['logos.price', 'DESC']; break;
-                case '3' : $orderBy = ['logos.price', 'ASC']; break;
-            }
-        }
-
-        // -- Hacer consulta
-        if(!empty($str)) {
-            $logos = Logo::leftJoin('keyword_logos', 'logos.id', '=', 'keyword_logos.logo_id')
-                ->join('keywords', 'keyword_logos.keyword_id', '=', 'keywords.id')
-                ->where('logos.name', 'LIKE', '%' . $str . '%')->orWhere(function ($query) use ($str) {
-                    $query->where('logos.description', 'LIKE', '%' . $str . '%')->where('logos.status', 'disponible');
-                })->orWhere(function ($query) use ($str) {
-                    $query->where('keywords.name', 'LIKE', $str)->where('logos.status', 'disponible');
-                })->orderBy($orderBy[0], $orderBy[1])->groupBy('logos.id')->paginate($perPage);
-
-            $data = ['search', $request->get('search')];
-            return view('front.home', compact('logos', 'data'));
-        }
-        return redirect()->route('index');
+    public function searchLogos($str, $order, $by, $perPage) {
+        $logos = Logo::leftJoin('keyword_logos', 'logos.id', '=', 'keyword_logos.logo_id')
+            ->join('keywords', 'keyword_logos.keyword_id', '=', 'keywords.id')
+            ->where('logos.name', 'LIKE', '%' . $str . '%')->orWhere(function ($query) use ($str) {
+                $query->where('logos.description', 'LIKE', '%' . $str . '%')->where('logos.status', 'disponible');
+            })->orWhere(function ($query) use ($str) {
+                $query->where('keywords.name', 'LIKE', $str)->where('logos.status', 'disponible');
+            })->orderBy($order, $by)->groupBy('logos.id')->paginate($perPage);
+        return $logos;
     }
 
     /** Purchase **/

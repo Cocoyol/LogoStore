@@ -12,20 +12,14 @@
 */
 
 Route::group(['namespace' => 'Frontend'], function() {
-    Route::get('/', [
+    Route::get('home', [
         'uses' => 'HomeController@index',
         'as' => 'index'
     ]);
 
-    Route::get('category/{category_id}', [
-        'uses' => 'HomeController@logosByCategory',
-        'as'   => 'category'
-    ]);
-
-    Route::get('search', [
-        'uses' => 'HomeController@SearchLogos',
-        'as'   => 'search'
-    ]);
+    Route::get('/', function() {
+        return redirect('home');
+    });
 
     Route::get('detail/{id}', [
         'uses' => 'HomeController@detail',

@@ -9,7 +9,17 @@
 
             <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
                 <div>
-                    @include('front.partials.messages')
+                    @if($errors->contact->all())
+                        <div class="alert alert-danger" role="alert">
+                            <p>Por favor Corrige los errores </p>
+                            <ul>
+                                @foreach($errors->contact->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+
+                    @endif
                 </div>
 
                 {!! Form::open(['route' => 'contact.message', 'method' => 'POST']) !!}

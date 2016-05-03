@@ -9,27 +9,26 @@ use Intervention\Image\Facades\Image;
  */
 function encodeFilename($OriginalName)
 {
-    $ext = pathinfo($OriginalName, PATHINFO_EXTENSION);
+    $ext = extractExtension($OriginalName);
 
     $basename = hash('sha1',time().$OriginalName);
     $tmp = 1;
-    $name = $basename.$tmp.'.'.((!empty($ext)?($ext):''));
+    $name = $basename.$tmp.'.'.(!empty($ext)?$ext:'jpg');
     while (Storage::disk('local')->exists('imagesLogos/'.$name)) {
         $tmp++;
-        $name = $basename.$tmp.'.'.((!empty($ext)?($ext):''));
+        $name = $basename.$tmp.'.'.(!empty($ext)?$ext:'jpg');
     }
     return $name;
 }
 
 
 // RESPUESTA - FILEINPUT -> imagesLogos
-
 function prepareResponse($images)
 {
     $url = asset('storage/imagesLogos');
     $response = [];
     foreach($images as $image) {
-        $filename = pathinfo($image->filename, PATHINFO_FILENAME);
+        $filename = extractFilename($image->filename);
         $response['initialPreview'][] = "<img src='".$url."/".$image->filename."' class='file-preview-image' alt='".$filename."' title='".$filename."'>";
         $response['initialPreviewConfig'][] = (object)[
             "caption" => $image->filename,
@@ -42,8 +41,20 @@ function prepareResponse($images)
 }
 
 
-// VALIDA TIPO DE IMAGEN POR $file
+// DEVUELVE SOLO EL NOMBRE DE ARCHIVO SIN EXTENSIÓN
+function extractFilename($fullFilename)
+{
+    return pathinfo($fullFilename, PATHINFO_FILENAME);
+}
 
+
+function extractExtension($fullFilename)
+{
+    return pathinfo($fullFilename, PATHINFO_EXTENSION);
+}
+
+
+// VALIDA TIPO DE IMAGEN POR $file
 function validateImage($file)
 {
     $imageInfo = getimagesize($file->getPathname());
@@ -58,32 +69,33 @@ function validateImage($file)
 
 
 // REDIMENSIONA LA IMAGEN (Requiere 'Intervention')
-
 function resizeImage($imagePath, $w, $h, $thumbPath){
     $img = Image::make($imagePath);
-    $h2 = $img->height();
-    $w2 = $img->width();
+    $originalW = $img->width();
+    $originalH = $img->height();
+    $originalAR = $originalW / $originalH;
+    $newAR = $w / $h;
 
-    if($w2 <= $h2)
-    {
-        $img->resize($w, null, function($c){
-            $c->aspectRatio();
-        });
-        $img->crop($w, $h);
-    }else
-    {
-        $img->resize(null, $h, function($c){
-            $c->aspectRatio();
-        });
-        $img->crop($w, $h);
+    if ($originalW >= $originalH) {
+        if ($originalAR >= $newAR) {
+            $img->resize(null, $h, function($c){ $c->aspectRatio(); });
+        } else {
+            $img->resize($w, null, function($c){ $c->aspectRatio(); });
+        }
+    } else {
+        if ($originalAR >= $newAR) {
+            $img->resize(null, $h, function($c){ $c->aspectRatio(); });
+        } else {
+            $img->resize($w, null, function($c){ $c->aspectRatio(); });
+        }
     }
-    $img->resize($w, $h);
+    $img->crop($w, $h);
+
     $img->save($thumbPath);
 }
 
 
-// DIVIDE UN ARRAY EN N PARTES SIMILARES
-
+// DIVIDE UN ARRAY EN N PARTES DE SIMILAR TAMAÑO
 function nChunks($collection, $n)
 {
     $chunks = collect();
