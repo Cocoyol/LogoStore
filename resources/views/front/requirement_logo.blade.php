@@ -42,7 +42,7 @@
 
                 @include('front.partials.messages')
 
-                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST'])!!}
+                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST', 'id' => 'frmRequirements'])!!}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group custom-form-group">
                             {!! Form::text('company', Session::has('requirements') ? Session::get('requirements.company') : null, ['class' => 'form-control', 'placeholder' => 'Nombre de la Empresa']) !!}
@@ -57,7 +57,7 @@
                     </div>
                     <p>&nbsp;</p>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <button type="submit" class="btn btn-success center-block" data-toggle="modal" data-target="#myModal">CONTINUAR</button>
+                        <button type="button" class="btn btn-success center-block" data-toggle="modal" data-target="#myModal">CONTINUAR</button>
                     </div>
                     <p>&nbsp;</p>
                 {!! Form::close() !!}
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Modal -->
-    <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -75,13 +75,26 @@
                     <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <h3>¿SON CORRECTOS TUS DATOS?</h3>
+                    <p>Verifica que tu informaci&oacute;n est&eacute; correctamente escrita
+                        ya que as&iacute; es como aparecer&aacute; en tu logo. Cualquier cambio
+                        adicional, generar&aacute; un costo extra.</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">NO, QUIERO EDITAR LOS DATOS</button>
+                    <button type="button" id="submitForm" class="btn btn-primary">SI, LOS DATOS SON CORRECTOS</button>
                 </div>
             </div>
         </div>
-    </div>-->
+    </div>
+@endsection
+
+@section('scripts')
+    <script type="application/javascript">
+        $(document).on('ready', function() {
+            $(document).on('click', '#submitForm', function(e) {
+                $('#frmRequirements').submit();
+            });
+        });
+    </script>
 @endsection
