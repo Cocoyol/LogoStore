@@ -43,7 +43,15 @@
                     <div class="col-xs-12 col-sm-12 col-md-12 ajust-space-summary-page">
                         <div class="col-xs-12 col-sm-4 col-md-4">
                             <div style="border: 1px solid #e3e3e3;">
-                                {{ Html::image(($logo->images->count()) ? asset('storage/imagesLogos').'/'.$logo->images->first()->filename : asset('assets/images/product.jpg'), 'product',['class' => 'img-responsive center-block']) }}
+                                <?php
+                                    $imageUrl = asset('assets/images/detail_product.jpg');
+                                    if($logo->images->count()){
+                                        $filename = extractFilename($logo->images->first()->filename);
+                                        $extension = extractExtension($logo->images->first()->filename);
+                                        $imageUrl = asset('storage/imagesLogos').'/'.$filename.'_thumb3.'.$extension;
+                                    }
+                                ?>
+                                {{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-8 col-md-8">

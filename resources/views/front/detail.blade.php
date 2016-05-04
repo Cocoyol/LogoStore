@@ -15,7 +15,15 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 ajust-space">
                     <div class="col-xs-12 col-sm-6 col-md-6">
                         <div style="border: 1px solid #e3e3e3;">
-                            {{ Html::image('assets/images/detail_product.jpg', 'product',['class' => 'img-responsive center-block']) }}
+                            <?php
+                                $imageUrl = asset('assets/images/detail_product.jpg');
+                                if($logo->images->count()){
+                                    $filename = extractFilename($logo->images->first()->filename);
+                                    $extension = extractExtension($logo->images->first()->filename);
+                                    $imageUrl = asset('storage/imagesLogos').'/'.$filename.'_thumb2.'.$extension;
+                                }
+                            ?>
+                            {{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -79,11 +87,19 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="row">
-
+                    <?php $default = asset('assets/images/product.jpg'); ?>
                     @foreach($relatedLogos as $relatedLogo)
+                            <?php
+                                $imageUrl = $default;
+                                if($relatedLogo->images->count()){
+                                    $filename = extractFilename($relatedLogo->images->first()->filename);
+                                    $extension = extractExtension($relatedLogo->images->first()->filename);
+                                    $imageUrl = asset('storage/imagesLogos').'/'.$filename.'_thumb.'.$extension;
+                                }
+                            ?>
                     <div class="col-xs-12 col-sm-3 col-md-3">
                         <div class="img-wrapp-logo">
-                            {{ Html::image(($relatedLogo->images->count()) ? asset('storage/imagesLogos').'/'.$relatedLogo->images->first()->filename : asset('assets/images/product.jpg'), 'product',['class' => 'img-responsive center-block']) }}
+                            {{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">
