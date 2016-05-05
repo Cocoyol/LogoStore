@@ -81,7 +81,8 @@ class HomeController extends Controller
 
     public function logosByCategory($str, $order, $by, $perPage)
     {
-        $logos = Logo::where('category_id', $str)->with('images')->orderBy($order, $by)->paginate($perPage);
+        $category = Category::findOrFail($str);
+        $logos = Logo::where('category_id', $category->id)->with('images')->orderBy($order, $by)->paginate($perPage);
         return $logos;
     }
 
@@ -92,7 +93,7 @@ class HomeController extends Controller
                 $query->where('logos.description', 'LIKE', '%' . $str . '%')->where('logos.status', 'disponible');
             })->orWhere(function ($query) use ($str) {
                 $query->where('keywords.name', 'LIKE', $str)->where('logos.status', 'disponible');
-            })->orderBy($order, $by)->groupBy('logos.id')->paginate($perPage);
+            })->orderBy($order, $by)->groupBy('logos.id')->select('logos.id','logos.name','logos.price','logos.status')->paginate($perPage);
         return $logos;
     }
 
