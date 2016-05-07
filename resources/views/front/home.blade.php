@@ -66,7 +66,7 @@
                     <div class="col-xs-12 col-sm-3 col-md-3">
                         <div class="{{ $solid }}"></div>
                         <div class="img-wrapp-logo">
-                            {{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}
+                            <a href="{{ $route }}">{{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}</a>
                         </div>
                         {{ $logo->name }}
                         <div class="row">
@@ -74,7 +74,7 @@
                                 <span class="arrow-price center-block">${{ $logo->price }}</span>
                             </div>
                             <div class="col-xs-6 col-sm-12 col-md-6">
-                                <span class="{{ $bn }} center-block"><a href="{{ $route }}">COMPRAR</a></span>
+                                <span class="{{ $bn }} center-block"><a href="{{ $route }}">VER DETALLES</a></span>
                             </div>
                         </div>
                     </div>
