@@ -90,6 +90,11 @@
                     <?php $default = asset('assets/images/product.jpg'); ?>
                     @foreach($relatedLogos as $relatedLogo)
                             <?php
+                                $bn    = "buy-now-disable";
+                                $route = "javascript:;";
+                                $solid = "icon-sell";
+                                if($relatedLogo->status == "disponible") { $bn = "buy-now";  $route = route('detail', $relatedLogo); $solid = ""; }
+
                                 $imageUrl = $default;
                                 if($relatedLogo->images->count()){
                                     $filename = extractFilename($relatedLogo->images->first()->filename);
@@ -98,15 +103,16 @@
                                 }
                             ?>
                     <div class="col-xs-12 col-sm-3 col-md-3">
+                        <div class="{{ $solid }}"></div>
                         <div class="img-wrapp-logo">
-                            {{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}
+                            <a href="{{ $route }}">{{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}</a>
                         </div>
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">
                                 <span class="arrow-price center-block">${{ $relatedLogo->price }}</span>
                             </div>
                             <div class="col-xs-6 col-sm-12 col-md-6">
-                                <span class="buy-now center-block"><a href="{{ route('detail', $relatedLogo) }}">COMPRAR</a></span>
+                                <span class="{{ $bn  }} center-block"><a href="{{ $route }}">VER DETALLE</a></span>
                             </div>
                         </div>
                     </div>
