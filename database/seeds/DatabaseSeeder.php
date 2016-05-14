@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             'orders',
             'requirements_logos',
             'keywords',
-            'keyword_logos'
+            'keyword_logos',
+            'additional_requirements_logo_prices'
         ));
 
         $this->call(UsersTableSeeder::class);
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RequirementsLogosTableSeeder::class);
         $this->call(KeywordsTableSeeder::class);
         $this->call(KeywordLogosTableSeeder::class);
+        $this->call(AdditionalRequirementsLogoPricesTableSeeder::class);
     }
 
     private function truncateTables(array $tables)

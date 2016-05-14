@@ -110,6 +110,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'namespace' => 'Admin
 
     Route::resource('orders', 'OrderController');
 
+    Route::resource('additional', 'AdditionalRequirementsLogoPriceController');
+
 });
 
 
