@@ -43,14 +43,18 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Laravel
+                    LogoStore Admin
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('admin') }}">Home</a></li>
+                    <li><a href="{{ route('admin.categories.index') }}">Categorías</a></li>
+                    <li><a href="{{ route('admin.keywords.index') }}">Palabras clave</a></li>
+                    <li><a href="{{ route('admin.logos.index') }}">Logos</a></li>
+                    <li><a href="{{ route('admin.customers.index') }}">Clientes</a></li>
+                    <li><a href="{{ route('admin.orders.index') }}">Ordenes</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->

@@ -129,12 +129,25 @@ class HomeController extends Controller
         return redirect()->route('index');
     }
 
+
+    public function additional_requirements(){
+
+        if(Session::has('logo_id')&&
+            Session::has('customer')){
+            $logo = Logo::findOrFail(Session::get('logo_id'));
+            if($logo->status == "disponible")
+                    return view('front.additional_requirements');
+        }
+        return redirect()->route('index');
+
+    }
+
     public function requirement_logo_preStore(CreateRequirementsLogoRequest $request)
     {
         $requirements = ['company' => $request->get('company'), 'secondaryText' => $request->get('secondaryText')];
         Session::put('requirements', $requirements);
 
-        return redirect()->route('summary');
+        return redirect()->route('additional');
     }
 
     public function summary()

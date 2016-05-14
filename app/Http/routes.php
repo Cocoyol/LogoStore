@@ -30,6 +30,7 @@ Route::group(['namespace' => 'Frontend'], function() {
         'uses' => 'HomeController@register_customer',
         'as' => 'register'
     ]);
+
     Route::post('purchase/postRegister', [
         'uses' => 'HomeController@register_customer_preStore',
         'as' => 'register.preStore'
@@ -39,6 +40,12 @@ Route::group(['namespace' => 'Frontend'], function() {
         'uses' => 'HomeController@requirement_logo',
         'as' => 'requirement'
     ]);
+
+    Route::get('purchase/additional', [
+        'uses' => 'HomeController@additional_requirements',
+        'as'   => 'additional'
+    ]);
+
     Route::post('purchase/postRequirement', [
         'uses' => 'HomeController@requirement_logo_preStore',
         'as' => 'requirement.preStore'
