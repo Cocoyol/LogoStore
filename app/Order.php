@@ -25,4 +25,9 @@ class Order extends Model
     {
         return $this->hasOne(RequirementsLogo::class);
     }
+
+    public function additionalRequirements()
+    {
+        return $this->hasMany(AdditionalRequirementsLogo::class);
+    }
 }
