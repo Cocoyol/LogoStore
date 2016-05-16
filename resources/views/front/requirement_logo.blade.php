@@ -45,7 +45,7 @@
 
                 @include('front.partials.messages')
 
-                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST', 'id' => 'frmRequirements'])!!}
+                {!! Form::open(['route' => 'requirement.preStore', 'method' => 'POST', 'id' => 'frmRequirements']) !!}
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group custom-form-group">
                             {!! Form::text('company', Session::has('requirements') ? Session::get('requirements.company') : null, ['class' => 'form-control', 'placeholder' => 'Nombre de la Empresa']) !!}
@@ -75,7 +75,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    <h4 class="modal-title" id="myModalLabel">Datos para el Logo</h4>
                 </div>
                 <div class="modal-body">
                     <h3>¿SON CORRECTOS TUS DATOS?</h3>

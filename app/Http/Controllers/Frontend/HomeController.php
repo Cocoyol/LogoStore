@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use LogoStore\AdditionalRequirementsLogo;
 use LogoStore\Category;
 use LogoStore\Customer;
 use LogoStore\Http\Requests;
@@ -16,7 +17,6 @@ use LogoStore\Http\Requests\CreateCustomerRequest;
 use LogoStore\Http\Requests\CreateRequirementsLogoRequest;
 use LogoStore\Http\Requests\ValidateFromContactRequest;
 use LogoStore\Logo;
-use LogoStore\PendingOrder;
 use LogoStore\RequirementsLogo;
 use LogoStore\Order;
 
@@ -98,17 +98,17 @@ class HomeController extends Controller
     }
 
     /** Purchase **/
+
+    // Paso 1
     public function register_customer()
     {
         if (Session::has('logo_id')) {
             $logo = Logo::findOrFail(Session::get('logo_id'));
             if($logo->status == "disponible")
                 return view('front.register_customer');
-
         }
         return redirect()->route('index');
     }
-
     public function register_customer_preStore(CreateCustomerRequest $request)
     {
         $customer = ['name' => $request->get('name'), 'email' => $request->get('email'), 'phone' => $request->get('phone') ];
@@ -117,6 +117,7 @@ class HomeController extends Controller
         return redirect()->route('requirement');
     }
 
+    // Paso 2
     public function requirement_logo()
     {
         if (Session::has('logo_id') &&
@@ -124,24 +125,9 @@ class HomeController extends Controller
             $logo = Logo::findOrFail(Session::get('logo_id'));
             if($logo->status == "disponible")
                 return view('front.requirement_logo');
-
         }
         return redirect()->route('index');
     }
-
-
-    public function additional_requirements(){
-
-        if(Session::has('logo_id')&&
-            Session::has('customer')){
-            $logo = Logo::findOrFail(Session::get('logo_id'));
-            if($logo->status == "disponible")
-                    return view('front.additional_requirements');
-        }
-        return redirect()->route('index');
-
-    }
-
     public function requirement_logo_preStore(CreateRequirementsLogoRequest $request)
     {
         $requirements = ['company' => $request->get('company'), 'secondaryText' => $request->get('secondaryText')];
@@ -150,11 +136,50 @@ class HomeController extends Controller
         return redirect()->route('additional');
     }
 
+    // Paso 3
+    public function additional_requirements()
+    {
+        if(Session::has('logo_id')&&
+            Session::has('customer') &&
+            Session::has('requirements')) {
+            $logo = Logo::findOrFail(Session::get('logo_id'));
+            if($logo->status == "disponible")
+                return view('front.additional_requirements');
+        }
+        return redirect()->route('index');
+    }
+    public function additional_requirements_preStore(Request $request)
+    {
+        $this->validate($request, [
+            'additional1' => 'numeric|in:1',
+            'additional2' => 'numeric|in:2',
+            'additional3' => 'numeric|in:3',
+            'questions.1' => 'required_if:additional1,1',
+            'questions.2' => 'required_if:additional2,2',
+            'questions.3' => 'required_if:additional3,3|numeric|min:1|max:10',
+        ]);
+
+        $questions = $request->get('questions');
+        $additionals = [];
+        if ( $request->get('additional1') != null )
+            $additionals[1] = ['q' => true, 'data' => $questions[1]];
+        if ( $request->get('additional2') != null )
+            $additionals[2] = ['q' => true, 'data' => $questions[2]];
+        if ( $request->get('additional3') != null )
+            $additionals[3] = ['q' => true, 'data' => $questions[3]];
+
+        Session::put('additionals', $additionals);
+
+        return redirect()->route('summary');
+    }
+
+    // Paso 4
     public function summary()
     {
         if (Session::has('logo_id') &&
             Session::has('customer') &&
-            Session::has('requirements')) {
+            Session::has('requirements') &&
+            Session::has('additionals')) {
             $logo = Logo::with(['category', 'keywords', 'images'])->findOrFail(Session::get('logo_id'));
             if($logo->status == "disponible")
                 return view('front.summary', compact('logo'));
@@ -167,8 +192,12 @@ class HomeController extends Controller
         if (Session::has('logo_id') &&
             Session::has('customer') &&
             Session::has('requirements') &&
+            Session::has('additionals') &&
             Session::has('paypal')) {
             $logo = Logo::findOrFail(Session::get('logo_id'));
+
+            $logo->status = 'vendido';
+            $logo->save();
 
             $customer = new Customer();
             $customer->name = Session::get('customer.name');
@@ -188,7 +217,17 @@ class HomeController extends Controller
             $requirements->order_id = $order->id;
             $requirements->save();
 
-            Mail::send('mails.payment_info', ['logo' => $logo, 'customer' => $customer, 'requirements' => $requirements, 'order' => $order], function ($m) use ($customer) {
+            $additionals = Session::get('additionals');
+            foreach($additionals as $k => $additional) {
+                $additionalReq = new AdditionalRequirementsLogo();
+                $additionalReq->data = $additional['data'];
+                $additionalReq->additional_requirements_id = $k;
+                $additionalReq->order_id = $order->id;
+                $additionalReq->save();
+            }
+
+            //dump(['logo' => $logo, 'customer' => $customer, 'requirements' => $requirements, 'additionals' => $additionals, 'order' => $order]);
+            Mail::send('mails.payment_info', ['logo' => $logo, 'customer' => $customer, 'requirements' => $requirements, 'additionals' => $additionals, 'order' => $order], function ($m) use ($customer) {
                 $m->from('logostore@app.com', 'Desde LogoStore para tí');
                 $m->to('eli.magana@imaginaestudio.mx')->cc($customer->email, $customer->name)->subject('Your Reminder!');
             });
@@ -205,6 +244,7 @@ class HomeController extends Controller
     {
         $user_contact = ['name' => $request->get('name'), 'email' => $request->get('email'), 'phone' => $request->get('phone'), 'message' => $request->get('message')];
 
+        //dump($user_contact);
         Mail::send('mails.contact', ['user_contact' => $user_contact], function ($m) use ($user_contact) {
             $m->from('logostore@app.com', 'LogoStore');
             $m->to('eli.magana@imaginaestudio.mx')->subject('Contact from web page!');

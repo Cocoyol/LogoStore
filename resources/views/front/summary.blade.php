@@ -5,7 +5,10 @@
 @endsection
 
 @section('content')
-    <?php setlocale(LC_ALL, 'es-mx') ?>
+    <?php
+        setlocale(LC_ALL, 'es-mx');
+        $totalPrice = $logo->price;
+    ?>
     {!! Form::open(['route' => 'payment', 'method' => 'GET']) !!}
         <div class="container">
             <div class="row">
@@ -98,8 +101,68 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div><span class="detail-title-category">PRECIO:</span>$ {{ $totalPrice }}</div>
+                                </div>
+                            </div>
+                            <div class="clearfix">&nbsp;</div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="detail-categories"><span class="detail-title-category">DATOS DEL CLIENTE:</span>
+                                        <dl>
+                                            <dt>Nombre</dt>
+                                            <dd>{{ Session::get('customer.name') }}</dd>
+                                            <dt>Email</dt>
+                                            <dd>{{ Session::get('customer.email') }}</dd>
+                                            <dt>Tel&eacute;fono</dt>
+                                            <dd>{{ Session::get('customer.phone') }}</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="detail-categories"><span class="detail-title-category">DATOS PARA EL LOGO:</span>
+                                        <dl>
+                                            <dt>Nombre de la empresa</dt>
+                                            <dd>{{ Session::get('requirements.company') }}</dd>
+                                            @if(Session::has('requirements.secondaryText'))
+                                                <dt>Texto Secundario</dt>
+                                                <dd>{{ Session::get('requirements.secondaryText') }}</dd>
+                                            @endif
+                                        </dl>
+                                    </div>
+                                </div>
+                            </div>
+                            @if(count(Session::get('additionals')))
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="detail-categories"><span class="detail-title-category">DATOS ADICIONALES:</span>
+                                        <ul>
+                                            <?php
+                                                $addPrices = LogoStore\AdditionalRequirementsLogoPrice::all();
+                                            ?>
+                                            @if(Session::has('additionals.1.q'))
+                                                <li>Cambiar tipograf&iacute;a + ${{ $addPrices[0]->price }}</li>
+                                                <?php $totalPrice += $addPrices[0]->price; ?>
+                                            @endif
+                                            @if(Session::has('additionals.2.q'))
+                                                <li>Cambiar color + ${{ $addPrices[1]->price }}</li>
+                                                    <?php $totalPrice += $addPrices[1]->price; ?>
+                                            @endif
+                                            @if(Session::has('additionals.3.q'))
+                                                <li>{{ Session::get('additionals.3.data') }} Revisiones + ${{ Session::get('additionals.3.data')*$addPrices[2]->price }}</li>
+                                                <?php $totalPrice += Session::get('additionals.3.data')*$addPrices[2]->price; ?>
+                                            @endif
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+                            <div class="row">
                                 <div class="col-xs-6 col-sm-4 col-md-4">
-                                    <span class="arrow-price">$ {{ $logo->price }}</span>
+                                    <span class="arrow-price">$ {{ $totalPrice }}</span>
                                 </div>
                                 <div class="col-xs-6 col-sm-8 col-md-8">
                                     <div style="line-height: 65px;">{!! Form::checkbox('terms', 'true') !!} ACEPTO TÉRMINOS Y CONDICIONES</div>

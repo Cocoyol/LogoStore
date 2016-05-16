@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use LogoStore\AdditionalRequirementsLogoPrice;
 use LogoStore\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use LogoStore\Http\Requests;
@@ -46,7 +47,8 @@ class PaypalController extends Controller
 
         if (!Session::has('logo_id') ||
             !Session::has('customer') ||
-            !Session::has('requirements')) {
+            !Session::has('requirements') ||
+            !Session::has('additionals')) {
             return redirect()->route('index');
         }
 
@@ -57,13 +59,32 @@ class PaypalController extends Controller
         $payer =  new  Payer();
         $payer->setPaymentMethod('paypal');
 
+        // Cálculo del Total
         $total = $logo->price;
+
+        // Requerimientos adicionales
+        $additionals = Session::get('additionals');
+        $additionalsData = AdditionalRequirementsLogoPrice::get(['id', 'text', 'price']);
+        $addText = ' $'.$logo->price;
+        if(isset($additionals[1])) {
+            $total += $additionalsData[0]->price;
+            $addText .= " + ".$additionalsData[0]->text." $".$additionalsData[0]->price;
+        }
+        if(isset($additionals[2])) {
+            $total += $additionalsData[1]->price;
+            $addText .= " + ".$additionalsData[1]->text." $".$additionalsData[1]->price;
+        }
+        if(isset($additionals[3])) {
+            $total += intval($additionals[3]['data']) * $additionalsData[2]->price;
+            $addText .= " + ".$additionalsData[2]->text." $".intval($additionals[3]['data']) * $additionalsData[2]->price." (".$additionals[3]['data']." * ".$additionalsData[2]->price.")" ;
+        }
+
         $currency = 'MXN';
 
         $item = new Item();
         $item->setName('Logo - '.$logo->name)
             ->setCurrency($currency)
-            ->setDescription($logo->description)
+            ->setDescription($logo->description.$addText)
             ->setQuantity('1')
             ->setPrice($total);
 

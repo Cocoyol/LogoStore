@@ -26,29 +26,34 @@ Route::group(['namespace' => 'Frontend'], function() {
         'as' => 'detail'
     ]);
 
+    // Register
     Route::get('purchase/register', [
         'uses' => 'HomeController@register_customer',
         'as' => 'register'
     ]);
-
     Route::post('purchase/postRegister', [
         'uses' => 'HomeController@register_customer_preStore',
         'as' => 'register.preStore'
     ]);
 
+    // Requirements
     Route::get('purchase/requirement', [
         'uses' => 'HomeController@requirement_logo',
         'as' => 'requirement'
     ]);
+    Route::post('purchase/postRequirement', [
+        'uses' => 'HomeController@requirement_logo_preStore',
+        'as' => 'requirement.preStore'
+    ]);
 
+    // Additional Requirements
     Route::get('purchase/additional', [
         'uses' => 'HomeController@additional_requirements',
         'as'   => 'additional'
     ]);
-
-    Route::post('purchase/postRequirement', [
-        'uses' => 'HomeController@requirement_logo_preStore',
-        'as' => 'requirement.preStore'
+    Route::post('purchase/postAdditional', [
+        'uses' => 'HomeController@additional_requirements_preStore',
+        'as'   => 'additional.preStore'
     ]);
 
     Route::get('purchase/summary', [

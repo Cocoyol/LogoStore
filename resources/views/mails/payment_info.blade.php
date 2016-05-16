@@ -4,4 +4,6 @@
 
 {{ dump($requirements) }}
 
+{{ dump($additionals) }}
+
 {{ dump($order) }}
