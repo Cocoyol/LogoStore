@@ -17,7 +17,7 @@
             {!! Form::close() !!}
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3">
-            <h5>LOGOS DISPONIBLES {{ $logos->total() }}</h5>
+            <h5 style="text-align: center;">LOGOS DISPONIBLES {{ $logos->total() }}</h5>
         </div>
     </div>
 </div>
