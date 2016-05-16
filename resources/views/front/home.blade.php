@@ -64,10 +64,12 @@
                             }
                         ?>
                     <div class="col-xs-12 col-sm-3 col-md-3">
-                        <div class="{{ $solid }}"></div>
+
                         <div class="img-wrapp-logo">
+                            <div class="{{ $solid }}"></div>
                             <a href="{{ $route }}">{{ Html::image($imageUrl, 'product',['class' => 'img-responsive center-block']) }}</a>
                         </div>
+
                         {{ $logo->name }}
                         <div class="row">
                             <div class="col-xs-6 col-sm-12 col-md-6">

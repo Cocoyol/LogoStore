@@ -1,4 +1,4 @@
-{{ Form::open(['route' => 'index', 'method' => 'GET', 'class' => "navbar-form navbar-right custom-position-search", "id" => "searchForm", "role" => "search" ]) }}
+{{ Form::open(['route' => 'index', 'method' => 'GET', 'class' => "navbar-form navbar-right search-position", "id" => "searchForm", "role" => "search" ]) }}
     <div class="row">
         <div class="col-lg-12">
             <div class="input-group">

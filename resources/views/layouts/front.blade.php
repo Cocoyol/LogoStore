@@ -38,51 +38,46 @@
     @yield('styles')
 
 </head>
-<body id="app-layout">
+<body>
 
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
+    <div class="wrap">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url('/') }}">{!! Html::image('assets/images/logo.png', 'LogoStore',['class'=>'image-brand']) !!}</a>
+                </div>
 
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed custom-navbar-toggle" data-toggle="collapse" data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    @include('front.partials.search')
+                    <ul class="nav navbar-nav navbar-right custom-menu">
+                        <li><a href="{{ route('index') }}">GALERÍA</a></li>
+                        <li><a href="#">CÓMO COMPRAR</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CATEGORÍAS <span class="caret"></span></a>
+                            <ul class="dropdown-menu custom-menu">
+                                <?php $categories = \LogoStore\Category::get(['id', 'name']) ?>
+                                    @foreach($categories as $category)
+                                        <li><a href="{{ route('index')."?type=1&search=$category->id" }}">{{ $category->name }}</a></li>
+                                    @endforeach
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div class="push"></div>
+        @yield('content')
+    </div>
 
-                <!-- Branding Image -->
-                <a class="navbar-brand custom-brand" href="{{ url('/') }}">
-                    {!! Html::image('assets/images/logo.png') !!}
-                </a>
-            </div>
 
-            @include('front.partials.search')
-
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right custom-menu">
-                    <li><a href="{{ route('index') }}">GALERÍA</a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" id="categoriesMenu" href="javascript:;" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            CATEGOR&Iacute;AS <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="categoriesMenu">
-                            <?php $categories = \LogoStore\Category::get(['id', 'name']) ?>
-                            @foreach($categories as $category)
-                                <li><a href="{{ route('index')."?type=1&search=$category->id" }}">{{ $category->name }}</a></li>
-                            @endforeach
-                        </ul>
-                    </li>
-                    <li><a href="">C&Oacute;MO COMPRAR</a></li>
-                </ul>
-
-            </div>
-        </div>
-    </nav>
-
-    @yield('content')
 
     @include('front.partials.contact_form')
     @include('front.partials.footer')

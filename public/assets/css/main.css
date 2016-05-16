@@ -2,31 +2,32 @@
 @import "fonts.css";
 @import "proces_form.css";
 
+/*
+* GENERAL
+*/
+
+
+html,
 body {
+    height: 100%;
     background-color: #eeeeee;
     font-family: 'latosemibold';
-
 }
 
-hr{
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+
+.wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
 }
 
-.btn {
-    padding: 6px 30px !important;
-}
 
-.btn-success{
-    background-color: #99CE7F !important;
-    border-color: #87b770 !important;
-}
-
-.footer {
-    bottom: 0;
-    width: 100%;
-    /* Set the fixed height of the footer here */
-    height: auto;
+/*
+* Footer
+*/
+.push, .footer {
+    height: auto !important;
+    height: 60px;
     background-color: #1e3152;
 }
 
@@ -40,10 +41,78 @@ hr{
     margin: 20px 0;
 }
 
+@media (max-width: 767px) {
+    .footer {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+
 
 /*
------------------------------------------------------- */
+ * Navbar
+ */
 
+
+.image-brand{
+    height: 90px;
+    margin-top: -10px;
+}
+
+.navbar-header{
+    min-height: 80px !important;
+}
+
+.navbar {
+    border-radius: 0px !important;
+}
+
+.navbar-default {
+    background-color: #425a84;
+    border-color: #3e547a;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #dcd363;
+    background-color: #f0e66b  !important;
+}
+
+.navbar-nav > li > a {
+    line-height: 50px !important;
+}
+
+.custom-menu{
+    text-align: center;
+}
+
+.custom-menu a{
+    font-family: 'latosemibold';
+    color: #f0e66b !important;
+}
+
+.custom-menu a:hover{
+    text-decoration: none;
+}
+
+.dropdown-menu {
+    background-color: #3b4f73 !important;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: #3e547a;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: #555;
+    background-color: #3b4f73;
+}
+
+.search-position{
+    margin-top: 23px;
+}
 
 .SearchIcon
 {
@@ -61,6 +130,59 @@ hr{
 
 .SearchBar{
 
+}
+
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #595959 !important;
+}
+
+@media screen and (max-width: 320px){
+
+    .image-brand{
+        height: 70px;
+        margin-top: -10px;
+    }
+
+    .navbar-toggle {
+        margin-top: 23px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .image-brand{
+        height: 70px;
+        margin-top: -10px;
+    }
+    .navbar-toggle {
+        margin-top: 23px !important;
+    }
+
+}
+
+
+@media screen and (max-width: 768px){
+    .image-brand{
+        height: 70px;
+        margin-top: -10px;
+    }
+
+    .navbar-toggle {
+        margin-top: 23px !important;
+    }
+
+}
+
+
+hr{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+.btn-success{
+    background-color: #99CE7F !important;
+    border-color: #87b770 !important;
 }
 
 
@@ -94,56 +216,6 @@ hr{
     background-color: #e3e3e3;
 }
 
-.custom-menu{
-   text-align: center;
-}
-
-.custom-menu a{
-    font-family: 'latosemibold';
-    color: #f0e66b !important;
-}
-
-.custom-menu a:hover{
-    text-decoration: none;
-}
-
-.custom-position-search{
-    margin-top: 17px;
-}
-
-.custom-navbar-toggle{
-    margin-top: 25px !important;
-}
-
-.navbar-default {
-    background-color: #425a84;
-    border-color: #e7e7e7;
-}
-
-.navbar-brand {
-    padding: 0px;
-    height: 70px;
-}
-
-.navbar-brand>img {
-    height: 100%;
-    padding: 0px;
-    width: auto;
-}
-
-.navbar-nav > li > a {
-    line-height: 35px !important;
-}
-
-.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-    color: #555;
-    background-color: #3b4f73;
-}
-
-.dropdown-menu {
-    background-color: #3b4f73 !important;
-}
-
 .breadcrumb {
  background-color: transparent !important;
 }
@@ -168,17 +240,16 @@ hr{
     border: 1px solid #e3e3e3;
 }
 
-
-.icon-sell{
+.icon-sell {
     background: url('../images/solid.png');
-    width: 85px;
+    background-repeat: no-repeat;
+    width: 100px;
     height: 83px;
-    max-width: 100%;
     position: absolute;
-    margin-top: 21px;
-    margin-left: 170px;
-    display: block;
+    right: 0;
 }
+
+
 
 .arrow-price{
     font-family: 'latobold';
@@ -198,6 +269,7 @@ hr{
 
 .buy-now{
     font-family: 'latoblack';
+    font-size: 0.80em;
     background: url('../images/buy_now.png') center top;
     width: 108px;
     max-width: 100%;
@@ -262,6 +334,7 @@ hr{
 
 
 .buy-now-disable{
+    font-size: 0.80em;
     background: url('../images/buy_now_disable.png') center top;
     width: 108px;
     max-width: 100%;
