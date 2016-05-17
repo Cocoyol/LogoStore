@@ -60,7 +60,7 @@
                                     $value = Session::has('additionals.1')&&Session::get('additionals.1.q') ? Session::get('additionals.1.data') : null;
                                     $checked = Session::has('additionals.1')&&Session::get('additionals.1.q') ? ['checked' => 'checked'] : [];
                                 ?>
-                                {!! Form::textarea('questions[1]', $value, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Texto Secundario', 'style' => 'resize:none']) !!}
+                                {!! Form::textarea('questions[1]', $value, ['class' => 'form-control', 'rows' => '3', 'placeholder' => 'Tipo de fuente', 'style' => 'resize:none']) !!}
                             </div>
                         </div>
 

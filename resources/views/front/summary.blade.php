@@ -16,31 +16,27 @@
                     <div class="row bs-wizard" style="border-bottom:0;">
 
                         <div class="col-xs-3 col-sm-3 col-md-3 bs-wizard-step complete"><!--active-->
-                            <div class="text-center bs-wizard-stepnum">1</div>
+                            <div class="bs-wizard-info text-center">DATOS DEL CLIENTE</div>
                             <div class="progress"><div class="progress-bar"></div></div>
                             <a href="{{ route('register') }}" class="bs-wizard-dot"></a>
-                            <div class="bs-wizard-info text-center">DATOS DEL CLIENTE</div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 bs-wizard-step complete"><!-- complete -->
-                            <div class="text-center bs-wizard-stepnum">2</div>
+                            <div class="bs-wizard-info text-center">DATOS PARA EL LOGO</div>
                             <div class="progress"><div class="progress-bar"></div></div>
                             <a href="{{ route('requirement') }}" class="bs-wizard-dot"></a>
-                            <div class="bs-wizard-info text-center">DATOS PARA EL LOGO</div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 bs-wizard-step complete"><!-- complete -->
-                            <div class="text-center bs-wizard-stepnum">3</div>
+                            <div class="bs-wizard-info text-center">ADICIONALES</div>
                             <div class="progress"><div class="progress-bar"></div></div>
                             <a href="{{ route('additional') }}" class="bs-wizard-dot"></a>
-                            <div class="bs-wizard-info text-center">ADICIONALES</div>
                         </div>
 
                         <div class="col-xs-3 col-sm-3 col-md-3 bs-wizard-step active"><!-- complete -->
-                            <div class="text-center bs-wizard-stepnum">4</div>
+                            <div class="bs-wizard-info text-center">RESUMEN DE LA COMPRA</div>
                             <div class="progress"><div class="progress-bar"></div></div>
                             <a href="#" class="bs-wizard-dot"></a>
-                            <div class="bs-wizard-info text-center">RESUMEN DE LA COMPRA</div>
                         </div>
 
                     </div>
@@ -102,13 +98,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div><span class="detail-title-category">PRECIO:</span>$ {{ $totalPrice }}</div>
+                                    <span class="detail-title-category">SUBTOTAL:</span> $ {{ $totalPrice }}
                                 </div>
                             </div>
                             <div class="clearfix">&nbsp;</div>
                             <hr/>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-12 col-sm-4 col-md-4">
                                     <div class="detail-categories"><span class="detail-title-category">DATOS DEL CLIENTE:</span>
                                         <dl>
                                             <dt>Nombre</dt>
@@ -120,9 +116,7 @@
                                         </dl>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="col-xs-12 col-sm-4 col-md-4">
                                     <div class="detail-categories"><span class="detail-title-category">DATOS PARA EL LOGO:</span>
                                         <dl>
                                             <dt>Nombre de la empresa</dt>
@@ -134,35 +128,39 @@
                                         </dl>
                                     </div>
                                 </div>
-                            </div>
-                            @if(count(Session::get('additionals')))
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12">
-                                    <div class="detail-categories"><span class="detail-title-category">DATOS ADICIONALES:</span>
-                                        <ul>
-                                            <?php
+                                @if(count(Session::get('additionals')))
+                                    <div class="col-xs-12 col-sm-4 col-md-4">
+                                        <div class="detail-categories"><span class="detail-title-category">DATOS ADICIONALES:</span>
+                                            <ul>
+                                                <?php
                                                 $addPrices = LogoStore\AdditionalRequirementsLogoPrice::all();
-                                            ?>
-                                            @if(Session::has('additionals.1.q'))
-                                                <li>Cambiar tipograf&iacute;a + ${{ $addPrices[0]->price }}</li>
-                                                <?php $totalPrice += $addPrices[0]->price; ?>
-                                            @endif
-                                            @if(Session::has('additionals.2.q'))
-                                                <li>Cambiar color + ${{ $addPrices[1]->price }}</li>
+                                                ?>
+                                                @if(Session::has('additionals.1.q'))
+                                                    <li>Cambiar tipograf&iacute;a + ${{ $addPrices[0]->price }}</li>
+                                                    <?php $totalPrice += $addPrices[0]->price; ?>
+                                                @endif
+                                                @if(Session::has('additionals.2.q'))
+                                                    <li>Cambiar color + ${{ $addPrices[1]->price }}</li>
                                                     <?php $totalPrice += $addPrices[1]->price; ?>
-                                            @endif
-                                            @if(Session::has('additionals.3.q'))
-                                                <li>{{ Session::get('additionals.3.data') }} Revisiones + ${{ Session::get('additionals.3.data')*$addPrices[2]->price }}</li>
-                                                <?php $totalPrice += Session::get('additionals.3.data')*$addPrices[2]->price; ?>
-                                            @endif
-                                        </ul>
+                                                @endif
+                                                @if(Session::has('additionals.3.q'))
+                                                    <li>{{ Session::get('additionals.3.data') }} Revisiones + ${{ Session::get('additionals.3.data')*$addPrices[2]->price }}</li>
+                                                    <?php $totalPrice += Session::get('additionals.3.data')*$addPrices[2]->price; ?>
+                                                @endif
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
-                            @endif
                             <div class="row">
                                 <div class="col-xs-6 col-sm-4 col-md-4">
-                                    <span class="arrow-price">$ {{ $totalPrice }}</span>
+                                    <table>
+                                        <tr>
+                                            <td>Total: &nbsp;</td>
+                                            <td><span class="arrow-price">$ {{ $totalPrice }}</span></td>
+                                        </tr>
+
+                                    </table>
                                 </div>
                                 <div class="col-xs-6 col-sm-8 col-md-8">
                                     <div style="line-height: 65px;">{!! Form::checkbox('terms', 'true') !!} ACEPTO TÉRMINOS Y CONDICIONES</div>
@@ -179,7 +177,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="col-xs-12 col-sm-12 col-md-12" style="text-align: center;">
-                        <button class="btn btn-pay-cancel center-block">Pagar ahora</button>
+                        <button class="btn btn-pay center-block">&nbsp;</button>
                     </div>
                 </div>
             </div>
