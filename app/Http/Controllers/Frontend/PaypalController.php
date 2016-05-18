@@ -59,43 +59,95 @@ class PaypalController extends Controller
         $payer =  new  Payer();
         $payer->setPaymentMethod('paypal');
 
+        $currency = 'MXN';
+        $items = [];
+        $total_ad  = 0;
+        $total_ad2 = 0;
+        $total_ad3 = 0;
+
         // Cálculo del Total
-        $total = $logo->price;
+        $subtotal = $logo->price;
 
         // Requerimientos adicionales
         $additionals = Session::get('additionals');
         $additionalsData = AdditionalRequirementsLogoPrice::get(['id', 'text', 'price']);
-        $addText = ' $'.$logo->price;
+        //$addText = ' $'.$logo->price;
+
+
         if(isset($additionals[1])) {
-            $total += $additionalsData[0]->price;
-            $addText .= " + ".$additionalsData[0]->text." $".$additionalsData[0]->price;
+
+            $total_ad = $additionalsData[0]->price;
+            //$addText .= " + ".$additionalsData[0]->text." $".$additionalsData[0]->price;
+
+            $item_1 = new Item();
+            $item_1->setName('Cambio de tipografia')
+                ->setCurrency($currency)
+                ->setDescription($additionalsData[0]->text)
+                ->setQuantity('1')
+                ->setPrice($total_ad);
+
+            $items[] = $item_1;
+
         }
         if(isset($additionals[2])) {
-            $total += $additionalsData[1]->price;
-            $addText .= " + ".$additionalsData[1]->text." $".$additionalsData[1]->price;
+
+            $total_ad2 = $additionalsData[1]->price;
+
+            $item_2 = new Item();
+            $item_2->setName('Cambio de color')
+                ->setCurrency($currency)
+                ->setDescription($additionalsData[1]->text)
+                ->setQuantity('1')
+                ->setPrice($total_ad2);
+
+
+            $items[] = $item_2;
+
+
+            //$total += $additionalsData[1]->price;
+            //$addText .= " + ".$additionalsData[1]->text." $".$additionalsData[1]->price;
         }
         if(isset($additionals[3])) {
-            $total += intval($additionals[3]['data']) * $additionalsData[2]->price;
-            $addText .= " + ".$additionalsData[2]->text." $".intval($additionals[3]['data']) * $additionalsData[2]->price." (".$additionals[3]['data']." * ".$additionalsData[2]->price.")" ;
+
+            $total_ad3 = intval($additionals[3]['data']) * $additionalsData[2]->price;
+
+
+            $item_3 = new Item();
+            $item_3->setName('Revisiones')
+                ->setCurrency($currency)
+                ->setDescription($additionalsData[2]->text)
+                ->setQuantity($additionals[3]['data'])
+                ->setPrice($additionalsData[2]->price);
+
+            $items[] = $item_3;
+
+            //$total += intval($additionals[3]['data']) * $additionalsData[2]->price;
+            //$addText .= " + ".$additionalsData[2]->text." $".intval($additionals[3]['data']) * $additionalsData[2]->price." (".$additionals[3]['data']." * ".$additionalsData[2]->price.")" ;
         }
 
-        $currency = 'MXN';
 
-        $item = new Item();
-        $item->setName('Logo - '.$logo->name)
+
+
+        $item_0 = new Item();
+        $item_0->setName('Logo - '.$logo->name)
             ->setCurrency($currency)
-            ->setDescription($logo->description.$addText)
+            ->setDescription($logo->description)
             ->setQuantity('1')
-            ->setPrice($total);
+            ->setPrice($subtotal);
 
-        $items[] = $item;
+
+        $items[] = $item_0;
+
+
+        $total = $subtotal + $total_ad + $total_ad2 + $total_ad3;
+
+
+
+        //dd($items);
 
         $item_list = new ItemList();
         $item_list->setItems($items);
 
-        /*$details = new Details();
-        $details->setSubtotal('0')
-            ->setShipping('0');*/
 
         $amount = new Amount();
         $amount->setCurrency($currency)
